@@ -57,7 +57,7 @@ from convert_model_to_savedmodel import (
     build_salience_model,
     export_saved_model,
     load_pretrained_weights,
-    verify_against_tflite,
+    verify_against_full_model,
 )
 
 DEFAULT_BATCH_SIZE = 1
@@ -68,7 +68,7 @@ def convert(model_dir, output_dir, n_harmonics=DEFAULT_N_HARMONICS, batch_size=D
     load_pretrained_weights(model, model_dir)
 
     if verify:
-        verify_against_tflite(model, model_dir)
+        verify_against_full_model(model, model_dir)
 
     saved_model_dir = tempfile.mkdtemp(prefix="basic_pitch_salience_")
     try:
@@ -116,7 +116,7 @@ def main():
     parser.add_argument(
         "--verify",
         action="store_true",
-        help="Compare the salience map against the bundled TFLite model before converting",
+        help="Compare the salience map against the untouched full model before converting",
     )
     args = parser.parse_args()
 
