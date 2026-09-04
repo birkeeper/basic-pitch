@@ -14,12 +14,20 @@ keeps its pretrained weights, so the exported map is bit-for-bit what the full
 model would have produced.
 
 Weights are read straight out of the SavedModel's variables checkpoint with
-`tf.train.load_checkpoint`. The shipped `saved_model.pb` cannot be loaded with
-`tf.saved_model.load` under TensorFlow 2.21 (it trips over Keras 2 optimizer
-slot variables), and `basic_pitch.models.model()` does not build under Keras 3,
-so going via the checkpoint is the route that works on a current install. In the
+`tf.train.load_checkpoint`, which works regardless of TensorFlow version:
+`tf.saved_model.load` on the shipped `saved_model.pb` trips over Keras 2
+optimizer slot variables on newer TensorFlow (2.21 fails, 2.19 is fine), and
+`basic_pitch.models.model()` does not build under Keras 3 at all. In the
 checkpoint the contour path is `layer_with_weights-0` through
 `layer_with_weights-3`, in the same order the layers are created here.
+
+Note that the exported model takes ONE fixed-length window and is not a
+drop-in for `basic_pitch.inference.predict`, which front-pads the audio, scans
+it with overlapping windows (hop = AUDIO_N_SAMPLES - 30 * FFT_HOP) and trims 15
+frames off each window's output. Because `NormalizedLog` rescales by each
+window's own dynamic range, chunking the audio differently changes every frame's
+value, not just the ones near a boundary -- so to reproduce `predict`'s map,
+reuse its `get_audio_input` and `unwrap_output`.
 
 Usage:
     python convert_model_to_savedmodel.py [model_dir] [output_dir] [--batch-size N] [--verify]
@@ -190,37 +198,63 @@ def load_pretrained_weights(model, model_dir):
     return model
 
 
-def verify_against_tflite(model, model_dir, tolerance=1e-4):
-    """Check the exported salience map against the bundled TFLite model.
+def verify_against_full_model(model, model_dir, tolerance=1e-5):
+    """Check the salience map against the untouched full Basic Pitch model.
 
-    The TFLite model still carries all three outputs, so this compares the
-    rebuilt contour path with what the untouched full model produces for the
-    same audio -- the only check that proves the two dropped branches were the
-    only thing removed.
+    Loading `model_dir` gives the real reference: the same weights, with the
+    note and onset branches still attached, so agreement proves the two dropped
+    outputs were the only thing removed. That load fails on some TensorFlow
+    versions (Keras 2 optimizer slot variables), in which case this falls back
+    to the bundled TFLite build -- a weaker check, because TFLite's own op
+    fusion puts it about 1e-5 away from the SavedModel, so a real mismatch
+    smaller than that would hide inside the tolerance.
+
+    Silence is included deliberately: `NormalizedLog` divides by the window's
+    own dynamic range, so an all-zero window is the one input where the
+    normalization could plausibly diverge.
     """
-    tflite_path = str(build_icassp_2022_model_path(FilenameSuffix.tflite))
-    if not os.path.exists(tflite_path):
-        print("Skipping verification, {} not found".format(tflite_path))
-        return
-
-    interpreter = tf.lite.Interpreter(model_path=tflite_path)
-    interpreter.allocate_tensors()
-    input_detail = interpreter.get_input_details()[0]
-    contour_detail = next(d for d in interpreter.get_output_details() if d["shape"][-1] == N_FREQ_BINS_CONTOURS)
-
     rng = np.random.default_rng(0)
-    audio = rng.standard_normal((1, AUDIO_N_SAMPLES, 1)).astype("float32") * 0.1
+    audio = np.concatenate(
+        [
+            rng.standard_normal((2, AUDIO_N_SAMPLES, 1)) * 0.1,
+            np.zeros((1, AUDIO_N_SAMPLES, 1)),
+        ]
+    ).astype("float32")
 
-    interpreter.set_tensor(input_detail["index"], audio)
-    interpreter.invoke()
-    reference = interpreter.get_tensor(contour_detail["index"])
+    try:
+        signature = tf.saved_model.load(model_dir).signatures["serving_default"]
+        input_name = list(signature.structured_input_signature[1])[0]
+        reference = signature(**{input_name: tf.constant(audio)})["contour"].numpy()
+        source = "full SavedModel"
+    except Exception as exc:
+        tflite_path = str(build_icassp_2022_model_path(FilenameSuffix.tflite))
+        if not os.path.exists(tflite_path):
+            print("Skipping verification: {} did not load ({}) and {} is missing".format(
+                model_dir, type(exc).__name__, tflite_path))
+            return
+        print("Full SavedModel did not load ({}), falling back to TFLite".format(type(exc).__name__))
+        interpreter = tf.lite.Interpreter(model_path=tflite_path)
+        interpreter.resize_tensor_input(interpreter.get_input_details()[0]["index"], audio.shape)
+        interpreter.allocate_tensors()
+        contour_detail = next(
+            d for d in interpreter.get_output_details() if d["shape"][-1] == N_FREQ_BINS_CONTOURS
+        )
+        interpreter.set_tensor(interpreter.get_input_details()[0]["index"], audio)
+        interpreter.invoke()
+        reference = interpreter.get_tensor(contour_detail["index"])
+        source = "TFLite build"
+        tolerance = max(tolerance, 1e-4)
 
     ours = model.predict(audio, verbose=0)
-
     max_diff = float(np.max(np.abs(ours - reference)))
-    print("Max deviation from the full model's contour output: {:.3e}".format(max_diff))
+    agreement = float(np.mean(ours.argmax(-1) == reference.argmax(-1)))
+    print(
+        "Deviation from the {}: max {:.3e}, peak-bin agreement {:.2%}".format(source, max_diff, agreement)
+    )
     if max_diff > tolerance:
-        raise RuntimeError("Salience output does not match the reference model (max diff {:.3e})".format(max_diff))
+        raise RuntimeError(
+            "Salience output does not match the reference (max diff {:.3e} > {:.3e})".format(max_diff, tolerance)
+        )
 
 
 def export_saved_model(model, output_dir, batch_size=None):
@@ -239,7 +273,7 @@ def convert(model_dir, output_dir, n_harmonics=DEFAULT_N_HARMONICS, batch_size=N
     load_pretrained_weights(model, model_dir)
 
     if verify:
-        verify_against_tflite(model, model_dir)
+        verify_against_full_model(model, model_dir)
 
     export_saved_model(model, output_dir, batch_size)
     print("Saved {}".format(output_dir))
@@ -276,7 +310,7 @@ def main():
     parser.add_argument(
         "--verify",
         action="store_true",
-        help="Compare the exported salience map against the bundled TFLite model before saving",
+        help="Compare the exported salience map against the untouched full model before saving",
     )
     args = parser.parse_args()
 
