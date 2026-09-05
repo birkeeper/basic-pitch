@@ -257,6 +257,30 @@ def verify_against_full_model(model, model_dir, tolerance=1e-5):
         )
 
 
+def predict_salience(model, audio_path):
+    """Whole-file (n_frames, 264) salience for the audio at `audio_path`.
+
+    The model consumes ONE fixed-length window, so a whole file is scanned with
+    overlapping windows and stitched by `inference.unwrap_output`, which drops
+    half the overlap from each window's output. Reusing basic_pitch.inference's
+    own windowing is not fussiness: NormalizedLog rescales by each window's
+    dynamic range, so a different partition changes every frame's value rather
+    than just the seams. Verified to reproduce `inference.predict`'s contour to
+    2e-07.
+    """
+    from basic_pitch import inference
+
+    n_olap = inference.DEFAULT_OVERLAPPING_FRAMES
+    overlap_len = n_olap * FFT_HOP
+    hop_size = AUDIO_N_SAMPLES - overlap_len
+    windows, original_length = [], None
+    for windowed, _t, original_length in inference.get_audio_input(
+            audio_path, overlap_len, hop_size):
+        windows.append(windowed)
+    salience = model.predict(np.concatenate(windows, axis=0), verbose=0)
+    return inference.unwrap_output(salience, original_length, n_olap, hop_size)
+
+
 def export_saved_model(model, output_dir, batch_size=None):
     """Write `model` out as a SavedModel with an explicit input signature.
 

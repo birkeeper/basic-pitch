@@ -19,8 +19,8 @@ model's behaviour on real recordings.
 | Drift screen | 2 real recordings, unannotated (`heroes_opname`, `My Love_opname`) |
 | Date produced | 2026-09-05 |
 | Log | `nmp_salience_finetuned_conv_20260905-175247.log` |
-| Status | F improved 0.393 → 0.666 with one guard rejection in 40 epochs. Validation shares songs, ensemble and room with training, so generalisation is unmeasured. `d@high` inflating (§4.1) |
-| Retained checkpoint | **`e36_s000610`** — the file selection wrote to `--out`, kept as-is (§3.2) |
+| Status | F improved 0.393 → 0.664 (retained checkpoint) with one guard rejection in 40 epochs. Validation shares songs, ensemble and room with training, so generalisation is unmeasured. `d@high` inflating (§4.1) |
+| Retained checkpoint | **`nmp_salience_finetuned_conv_e36.weights.h5`** — epoch-boundary e36, F 0.664 (§3.2). Not the `e36_s000610` selection wrote to `--out` |
 
 > **Note on the filename.** `train()` appends the strategy to `--out`, so the
 > `_conv` suffix is generated, not typed. **This model is `--strategy conv`** — no
@@ -159,18 +159,21 @@ onward, so selection among the last ten checkpoints is arbitrary. Drift is flat
 across that range too (§4.1), so there is no accuracy/drift trade to make here:
 any checkpoint from ~e31 is equivalent.
 
-**Decision: `e36_s000610` is kept.** Nothing distinguishes an epoch boundary from
-a mid-epoch step — BatchNorm is frozen under `conv`, so its running statistics
-are the pretrained values wherever training stops, and 15 of 17 batches into an
-epoch is not a meaningfully different point in the data order. A separate check
-outside this log put the standard error on validation recall and precision at
-±0.018 across the 54 windows, against a spread of 0.006 in F between e31, e36 and
-`e36_s000610` — the candidates are statistically indistinguishable, so the file
-selection already wrote is kept rather than substituting an equally arbitrary one.
+**Decision: the epoch-boundary `e36` checkpoint is kept** (F 0.664), not the
+`e36_s000610` that selection wrote to `--out` (F 0.666). Nothing distinguishes a
+mid-epoch step from an epoch boundary here — BatchNorm is frozen under `conv`, so
+its running statistics are the pretrained values wherever training stops, and 15
+of 17 batches into an epoch is not a meaningfully different point in the data
+order. A separate check outside this log put the standard error on validation
+recall and precision at ±0.018 across the 54 windows, against a spread of 0.006
+in F between e31, e36 and `e36_s000610`: the candidates are statistically
+indistinguishable, and the epoch boundary is the one that is simplest to name and
+reproduce.
 
-Note that picking the argmax of a noisy metric on 54 windows makes 0.666 a
-slightly optimistic estimate of true performance. That is a property of the
-number, not of these weights, and would apply to any checkpoint chosen this way.
+Note that picking the argmax of a noisy metric on 54 windows makes any of these
+figures slightly optimistic as an estimate of true performance. That is a
+property of the number, not of these weights, and applies to any checkpoint
+chosen this way.
 
 ## 4. Behaviour on real recordings
 
