@@ -268,9 +268,21 @@ def export_saved_model(model, output_dir, batch_size=None):
     model.export(output_dir, input_signature=input_signature)
 
 
-def convert(model_dir, output_dir, n_harmonics=DEFAULT_N_HARMONICS, batch_size=None, verify=False):
+def convert(model_dir, output_dir, n_harmonics=DEFAULT_N_HARMONICS, batch_size=None,
+            verify=False, weights=None):
     model = build_salience_model(n_harmonics=n_harmonics, batch_size=batch_size)
-    load_pretrained_weights(model, model_dir)
+    if weights:
+        # A fine-tune from finetune.py. The architecture is unchanged, so only
+        # the weights differ -- but that means the reference check cannot apply:
+        # these weights are meant to disagree with the pretrained model.
+        model.load_weights(weights)
+        print("Loaded fine-tuned weights from %s" % weights)
+        if verify:
+            print("--verify skipped: fine-tuned weights differ from the reference "
+                  "by design")
+            verify = False
+    else:
+        load_pretrained_weights(model, model_dir)
 
     if verify:
         verify_against_full_model(model, model_dir)
@@ -308,6 +320,11 @@ def main():
         help="Pin the number of audio windows the exported model accepts (default: dynamic)",
     )
     parser.add_argument(
+        "--weights",
+        default=None,
+        help="Export a .weights.h5 from finetune.py instead of the pretrained weights",
+    )
+    parser.add_argument(
         "--verify",
         action="store_true",
         help="Compare the exported salience map against the untouched full model before saving",
@@ -318,9 +335,12 @@ def main():
     if output_path is None:
         # Into the working directory, not next to the source model -- that one
         # lives inside the installed package.
-        output_path = os.path.basename(args.model_dir.rstrip(os.sep)) + "_salience"
+        base = (os.path.basename(args.weights).split('.')[0] if args.weights
+                else os.path.basename(args.model_dir.rstrip(os.sep)))
+        output_path = base + "_salience"
 
-    convert(args.model_dir, output_path, args.n_harmonics, args.batch_size, args.verify)
+    convert(args.model_dir, output_path, args.n_harmonics, args.batch_size,
+            args.verify, args.weights)
 
 
 if __name__ == "__main__":
