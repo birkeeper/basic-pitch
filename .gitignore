@@ -148,3 +148,6 @@ junit.xml
 
 # intellij
 .idea/
+
+finetune/data/
+
