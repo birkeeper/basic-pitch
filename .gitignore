@@ -150,4 +150,6 @@ junit.xml
 .idea/
 
 finetune/data/
+finetune/results/models/
+!nmp_*.log
 

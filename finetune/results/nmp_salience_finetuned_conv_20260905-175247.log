@@ -1,0 +1,432 @@
+==============================================================================
+run started 2026-09-05 17:52:47
+args: {"TEST": null, "bal_tol": 0.03, "batch_size": 10, "distill_dir": null, "distill_gamma": 0.0, "distill_lambda": 1.0, "distill_quiet_cap": 0.33, "drift_high_tol": 0.15, "epochs": 40, "eval_every": 10, "l2sp": 0.001, "lr": 0.0001, "out": "./nmp_salience_finetuned_conv.weights.h5", "pos_weight": 1.0, "real_audio": ["./finetune/data/heroes_opname.flac", "./finetune/data/My Love_opname.flac"], "save_every_epoch": true, "seed": 0, "strategy": "conv", "thresh": null, "train_dir": "./finetune/data/train", "valid_dir": "./finetune/data/valid", "weights": "/home/birkeeper/Documents/git/basic-pitch/basic_pitch/saved_models/icassp_2022/nmp"}
+==============================================================================
+Output weights: ./nmp_salience_finetuned_conv.weights.h5
+Logging to ./nmp_salience_finetuned_conv_20260905-175247.log
+Using 167 prepared windows in ./finetune/data/train
+Real-audio drift screen: heroes_opname.flac
+Real-audio drift screen: My Love_opname.flac
+Loaded 7733 salience parameters from /home/birkeeper/Documents/git/basic-pitch/basic_pitch/saved_models/icassp_2022/nmp/variables/variables
+Strategy 'conv': 2 trainable layer(s), 7697 parameters ['conv2d', 'contours-reduced']
+L2-SP anchoring 2 kernels (lambda=0.001)
+baseline     | val_loss=0.1506  recall=0.427  precision=0.365  F=0.393  @thresh=0.170
+
+  REAL(2) d@high -0.021 | mean -23.0% r=0.88 worst -24.5%
+  step 10 (epoch 1, batch 10/17)  train_loss=0.1519  [-> nmp_salience_finetuned_conv_e01_s000010.weights.h5]  | val_loss=0.1319  recall=0.480  precision=0.458  F=0.469  @thresh=0.170  | REAL(2) d@high -0.021 | mean -23.0% r=0.88 worst -24.5%  [saved best, +0.076 vs baseline]
+
+  REAL(2) d@high -0.060 | mean -35.3% r=0.80 worst -37.5%
+epoch 1/40  train_loss=0.1443  [-> nmp_salience_finetuned_conv_e01.weights.h5]  | val_loss=0.1245  recall=0.454  precision=0.473  F=0.463  @thresh=0.155  | REAL(2) d@high -0.060 | mean -35.3% r=0.80 worst -37.5%
+
+  REAL(2) d@high -0.065 | mean -38.5% r=0.79 worst -40.8%
+  step 20 (epoch 2, batch 3/17)  train_loss=0.1333  [-> nmp_salience_finetuned_conv_e02_s000020.weights.h5]  | val_loss=0.1222  recall=0.394  precision=0.525  F=0.450  @thresh=0.170  | REAL(2) d@high -0.065 | mean -38.5% r=0.79 worst -40.8%  [rejected: recall 0.394<0.397]
+
+  REAL(2) d@high -0.061 | mean -44.4% r=0.77 worst -46.6%
+  step 30 (epoch 2, batch 13/17)  train_loss=0.1265  [-> nmp_salience_finetuned_conv_e02_s000030.weights.h5]  | val_loss=0.1157  recall=0.421  precision=0.506  F=0.460  @thresh=0.170  | REAL(2) d@high -0.061 | mean -44.4% r=0.77 worst -46.6%
+
+  REAL(2) d@high -0.064 | mean -46.2% r=0.76 worst -48.4%
+epoch 2/40  train_loss=0.1260  [-> nmp_salience_finetuned_conv_e02.weights.h5]  | val_loss=0.1131  recall=0.427  precision=0.520  F=0.469  @thresh=0.170  | REAL(2) d@high -0.064 | mean -46.2% r=0.76 worst -48.4%  [saved best, +0.076 vs baseline]
+
+  REAL(2) d@high -0.065 | mean -48.0% r=0.75 worst -50.1%
+  step 40 (epoch 3, batch 6/17)  train_loss=0.1205  [-> nmp_salience_finetuned_conv_e03_s000040.weights.h5]  | val_loss=0.1092  recall=0.459  precision=0.542  F=0.497  @thresh=0.170  | REAL(2) d@high -0.065 | mean -48.0% r=0.75 worst -50.1%  [saved best, +0.104 vs baseline]
+
+  REAL(2) d@high -0.064 | mean -50.6% r=0.73 worst -52.7%
+  step 50 (epoch 3, batch 16/17)  train_loss=0.1116  [-> nmp_salience_finetuned_conv_e03_s000050.weights.h5]  | val_loss=0.1028  recall=0.540  precision=0.530  F=0.535  @thresh=0.155  | REAL(2) d@high -0.064 | mean -50.6% r=0.73 worst -52.7%  [saved best, +0.142 vs baseline]
+
+  REAL(2) d@high -0.063 | mean -50.9% r=0.72 worst -53.0%
+epoch 3/40  train_loss=0.1143  [-> nmp_salience_finetuned_conv_e03.weights.h5]  | val_loss=0.1022  recall=0.543  precision=0.532  F=0.537  @thresh=0.155  | REAL(2) d@high -0.063 | mean -50.9% r=0.72 worst -53.0%  [saved best, +0.144 vs baseline]
+
+  REAL(2) d@high -0.042 | mean -51.0% r=0.70 worst -52.9%
+  step 60 (epoch 4, batch 9/17)  train_loss=0.1057  [-> nmp_salience_finetuned_conv_e04_s000060.weights.h5]  | val_loss=0.0968  recall=0.582  precision=0.523  F=0.551  @thresh=0.155  | REAL(2) d@high -0.042 | mean -51.0% r=0.70 worst -52.9%  [saved best, +0.157 vs baseline]
+
+  REAL(2) d@high -0.038 | mean -52.9% r=0.69 worst -54.9%
+epoch 4/40  train_loss=0.1044  [-> nmp_salience_finetuned_conv_e04.weights.h5]  | val_loss=0.0923  recall=0.578  precision=0.521  F=0.548  @thresh=0.155  | REAL(2) d@high -0.038 | mean -52.9% r=0.69 worst -54.9%
+
+  REAL(2) d@high -0.035 | mean -53.3% r=0.68 worst -55.2%
+  step 70 (epoch 5, batch 2/17)  train_loss=0.1025  [-> nmp_salience_finetuned_conv_e05_s000070.weights.h5]  | val_loss=0.0912  recall=0.578  precision=0.517  F=0.546  @thresh=0.155  | REAL(2) d@high -0.035 | mean -53.3% r=0.68 worst -55.2%
+
+  REAL(2) d@high -0.020 | mean -54.4% r=0.67 worst -56.3%
+  step 80 (epoch 5, batch 12/17)  train_loss=0.0957  [-> nmp_salience_finetuned_conv_e05_s000080.weights.h5]  | val_loss=0.0862  recall=0.559  precision=0.527  F=0.543  @thresh=0.170  | REAL(2) d@high -0.020 | mean -54.4% r=0.67 worst -56.3%
+
+  REAL(2) d@high -0.016 | mean -55.5% r=0.66 worst -57.4%
+epoch 5/40  train_loss=0.0960  [-> nmp_salience_finetuned_conv_e05.weights.h5]  | val_loss=0.0838  recall=0.557  precision=0.526  F=0.541  @thresh=0.170  | REAL(2) d@high -0.016 | mean -55.5% r=0.66 worst -57.4%
+
+  REAL(2) d@high -0.008 | mean -55.8% r=0.65 worst -57.7%
+  step 90 (epoch 6, batch 5/17)  train_loss=0.0905  [-> nmp_salience_finetuned_conv_e06_s000090.weights.h5]  | val_loss=0.0817  recall=0.541  precision=0.541  F=0.541  @thresh=0.185  | REAL(2) d@high -0.008 | mean -55.8% r=0.65 worst -57.7%
+
+  REAL(2) d@high -0.007 | mean -58.1% r=0.64 worst -60.1%
+  step 100 (epoch 6, batch 15/17)  train_loss=0.0889  [-> nmp_salience_finetuned_conv_e06_s000100.weights.h5]  | val_loss=0.0779  recall=0.539  precision=0.547  F=0.543  @thresh=0.185  | REAL(2) d@high -0.007 | mean -58.1% r=0.64 worst -60.1%
+
+  REAL(2) d@high -0.004 | mean -58.3% r=0.64 worst -60.2%
+epoch 6/40  train_loss=0.0893  [-> nmp_salience_finetuned_conv_e06.weights.h5]  | val_loss=0.0773  recall=0.541  precision=0.545  F=0.543  @thresh=0.185  | REAL(2) d@high -0.004 | mean -58.3% r=0.64 worst -60.2%
+
+  REAL(2) d@high +0.001 | mean -59.2% r=0.63 worst -61.1%
+  step 110 (epoch 7, batch 8/17)  train_loss=0.0845  [-> nmp_salience_finetuned_conv_e07_s000110.weights.h5]  | val_loss=0.0749  recall=0.549  precision=0.541  F=0.545  @thresh=0.185  | REAL(2) d@high +0.001 | mean -59.2% r=0.63 worst -61.1%
+
+  REAL(2) d@high +0.008 | mean -60.2% r=0.63 worst -62.2%
+epoch 7/40  train_loss=0.0841  [-> nmp_salience_finetuned_conv_e07.weights.h5]  | val_loss=0.0727  recall=0.551  precision=0.541  F=0.546  @thresh=0.185  | REAL(2) d@high +0.008 | mean -60.2% r=0.63 worst -62.2%
+
+  REAL(2) d@high +0.010 | mean -60.1% r=0.63 worst -62.1%
+  step 120 (epoch 8, batch 1/17)  train_loss=0.0833  [-> nmp_salience_finetuned_conv_e08_s000120.weights.h5]  | val_loss=0.0724  recall=0.554  precision=0.538  F=0.546  @thresh=0.185  | REAL(2) d@high +0.010 | mean -60.1% r=0.63 worst -62.1%
+
+  REAL(2) d@high -0.005 | mean -63.7% r=0.62 worst -65.9%
+  step 130 (epoch 8, batch 11/17)  train_loss=0.0815  [-> nmp_salience_finetuned_conv_e08_s000130.weights.h5]  | val_loss=0.0704  recall=0.552  precision=0.546  F=0.549  @thresh=0.170  | REAL(2) d@high -0.005 | mean -63.7% r=0.62 worst -65.9%
+
+  REAL(2) d@high +0.023 | mean -60.8% r=0.61 worst -62.8%
+epoch 8/40  train_loss=0.0802  [-> nmp_salience_finetuned_conv_e08.weights.h5]  | val_loss=0.0694  recall=0.550  precision=0.555  F=0.552  @thresh=0.200  | REAL(2) d@high +0.023 | mean -60.8% r=0.61 worst -62.8%  [saved best, +0.159 vs baseline]
+
+  REAL(2) d@high +0.008 | mean -62.9% r=0.61 worst -65.0%
+  step 140 (epoch 9, batch 4/17)  train_loss=0.0738  [-> nmp_salience_finetuned_conv_e09_s000140.weights.h5]  | val_loss=0.0685  recall=0.557  precision=0.555  F=0.556  @thresh=0.185  | REAL(2) d@high +0.008 | mean -62.9% r=0.61 worst -65.0%  [saved best, +0.163 vs baseline]
+
+  REAL(2) d@high +0.032 | mean -61.1% r=0.61 worst -63.1%
+  step 150 (epoch 9, batch 14/17)  train_loss=0.0790  [-> nmp_salience_finetuned_conv_e09_s000150.weights.h5]  | val_loss=0.0673  recall=0.547  precision=0.572  F=0.559  @thresh=0.215  | REAL(2) d@high +0.032 | mean -61.1% r=0.61 worst -63.1%  [saved best, +0.166 vs baseline]
+
+  REAL(2) d@high +0.033 | mean -61.5% r=0.61 worst -63.5%
+epoch 9/40  train_loss=0.0775  [-> nmp_salience_finetuned_conv_e09.weights.h5]  | val_loss=0.0669  recall=0.546  precision=0.574  F=0.560  @thresh=0.215  | REAL(2) d@high +0.033 | mean -61.5% r=0.61 worst -63.5%  [saved best, +0.166 vs baseline]
+
+  REAL(2) d@high +0.017 | mean -64.7% r=0.61 worst -66.9%
+  step 160 (epoch 10, batch 7/17)  train_loss=0.0751  [-> nmp_salience_finetuned_conv_e10_s000160.weights.h5]  | val_loss=0.0659  recall=0.558  precision=0.567  F=0.562  @thresh=0.185  | REAL(2) d@high +0.017 | mean -64.7% r=0.61 worst -66.9%  [saved best, +0.169 vs baseline]
+
+  REAL(2) d@high +0.037 | mean -62.7% r=0.60 worst -64.8%
+epoch 10/40  train_loss=0.0756  [-> nmp_salience_finetuned_conv_e10.weights.h5]  | val_loss=0.0649  recall=0.553  precision=0.584  F=0.568  @thresh=0.215  | REAL(2) d@high +0.037 | mean -62.7% r=0.60 worst -64.8%  [saved best, +0.175 vs baseline]
+
+  REAL(2) d@high +0.024 | mean -65.4% r=0.60 worst -67.6%
+  step 180 (epoch 11, batch 10/17)  train_loss=0.0748  [-> nmp_salience_finetuned_conv_e11_s000180.weights.h5]  | val_loss=0.0638  recall=0.574  precision=0.573  F=0.573  @thresh=0.185  | REAL(2) d@high +0.024 | mean -65.4% r=0.60 worst -67.6%  [saved best, +0.180 vs baseline]
+
+  REAL(2) d@high +0.046 | mean -63.4% r=0.60 worst -65.5%
+epoch 11/40  train_loss=0.0736  [-> nmp_salience_finetuned_conv_e11.weights.h5]  | val_loss=0.0635  recall=0.562  precision=0.592  F=0.576  @thresh=0.215  | REAL(2) d@high +0.046 | mean -63.4% r=0.60 worst -65.5%  [saved best, +0.183 vs baseline]
+
+  REAL(2) d@high +0.050 | mean -63.1% r=0.60 worst -65.3%
+  step 190 (epoch 12, batch 3/17)  train_loss=0.0733  [-> nmp_salience_finetuned_conv_e12_s000190.weights.h5]  | val_loss=0.0633  recall=0.565  precision=0.589  F=0.577  @thresh=0.215  | REAL(2) d@high +0.050 | mean -63.1% r=0.60 worst -65.3%  [saved best, +0.184 vs baseline]
+
+  REAL(2) d@high +0.047 | mean -64.7% r=0.60 worst -67.0%
+  step 200 (epoch 12, batch 13/17)  train_loss=0.0737  [-> nmp_salience_finetuned_conv_e12_s000200.weights.h5]  | val_loss=0.0625  recall=0.559  precision=0.604  F=0.580  @thresh=0.215  | REAL(2) d@high +0.047 | mean -64.7% r=0.60 worst -67.0%  [saved best, +0.187 vs baseline]
+
+  REAL(2) d@high +0.034 | mean -66.2% r=0.60 worst -68.6%
+epoch 12/40  train_loss=0.0724  [-> nmp_salience_finetuned_conv_e12.weights.h5]  | val_loss=0.0621  recall=0.566  precision=0.605  F=0.585  @thresh=0.200  | REAL(2) d@high +0.034 | mean -66.2% r=0.60 worst -68.6%  [saved best, +0.191 vs baseline]
+
+  REAL(2) d@high +0.029 | mean -66.9% r=0.59 worst -69.2%
+  step 210 (epoch 13, batch 6/17)  train_loss=0.0667  [-> nmp_salience_finetuned_conv_e13_s000210.weights.h5]  | val_loss=0.0616  recall=0.565  precision=0.612  F=0.588  @thresh=0.200  | REAL(2) d@high +0.029 | mean -66.9% r=0.59 worst -69.2%  [saved best, +0.194 vs baseline]
+
+  REAL(2) d@high +0.045 | mean -65.5% r=0.59 worst -67.8%
+  step 220 (epoch 13, batch 16/17)  train_loss=0.0744  [-> nmp_salience_finetuned_conv_e13_s000220.weights.h5]  | val_loss=0.0611  recall=0.583  precision=0.598  F=0.590  @thresh=0.200  | REAL(2) d@high +0.045 | mean -65.5% r=0.59 worst -67.8%  [saved best, +0.197 vs baseline]
+
+  REAL(2) d@high +0.041 | mean -66.2% r=0.59 worst -68.5%
+epoch 13/40  train_loss=0.0711  [-> nmp_salience_finetuned_conv_e13.weights.h5]  | val_loss=0.0610  recall=0.578  precision=0.604  F=0.590  @thresh=0.200  | REAL(2) d@high +0.041 | mean -66.2% r=0.59 worst -68.5%  [saved best, +0.197 vs baseline]
+
+  REAL(2) d@high +0.052 | mean -66.0% r=0.59 worst -68.4%
+  step 230 (epoch 14, batch 9/17)  train_loss=0.0703  [-> nmp_salience_finetuned_conv_e14_s000230.weights.h5]  | val_loss=0.0606  recall=0.569  precision=0.621  F=0.594  @thresh=0.215  | REAL(2) d@high +0.052 | mean -66.0% r=0.59 worst -68.4%  [saved best, +0.200 vs baseline]
+
+  REAL(2) d@high +0.072 | mean -63.9% r=0.59 worst -66.2%
+epoch 14/40  train_loss=0.0703  [-> nmp_salience_finetuned_conv_e14.weights.h5]  | val_loss=0.0604  recall=0.577  precision=0.618  F=0.597  @thresh=0.230  | REAL(2) d@high +0.072 | mean -63.9% r=0.59 worst -66.2%  [saved best, +0.203 vs baseline]
+
+  REAL(2) d@high +0.078 | mean -63.2% r=0.59 worst -65.5%
+  step 240 (epoch 15, batch 2/17)  train_loss=0.0676  [-> nmp_salience_finetuned_conv_e15_s000240.weights.h5]  | val_loss=0.0605  recall=0.584  precision=0.611  F=0.597  @thresh=0.230  | REAL(2) d@high +0.078 | mean -63.2% r=0.59 worst -65.5%  [saved best, +0.204 vs baseline]
+
+  REAL(2) d@high +0.057 | mean -66.6% r=0.59 worst -69.1%
+  step 250 (epoch 15, batch 12/17)  train_loss=0.0708  [-> nmp_salience_finetuned_conv_e15_s000250.weights.h5]  | val_loss=0.0597  recall=0.574  precision=0.630  F=0.601  @thresh=0.215  | REAL(2) d@high +0.057 | mean -66.6% r=0.59 worst -69.1%  [saved best, +0.208 vs baseline]
+
+  REAL(2) d@high +0.058 | mean -66.7% r=0.59 worst -69.1%
+epoch 15/40  train_loss=0.0695  [-> nmp_salience_finetuned_conv_e15.weights.h5]  | val_loss=0.0594  recall=0.577  precision=0.632  F=0.603  @thresh=0.215  | REAL(2) d@high +0.058 | mean -66.7% r=0.59 worst -69.1%  [saved best, +0.210 vs baseline]
+
+  REAL(2) d@high +0.067 | mean -65.6% r=0.59 worst -67.9%
+  step 260 (epoch 16, batch 5/17)  train_loss=0.0674  [-> nmp_salience_finetuned_conv_e16_s000260.weights.h5]  | val_loss=0.0593  recall=0.592  precision=0.622  F=0.607  @thresh=0.215  | REAL(2) d@high +0.067 | mean -65.6% r=0.59 worst -67.9%  [saved best, +0.213 vs baseline]
+
+  REAL(2) d@high +0.049 | mean -68.1% r=0.59 worst -70.6%
+  step 270 (epoch 16, batch 15/17)  train_loss=0.0694  [-> nmp_salience_finetuned_conv_e16_s000270.weights.h5]  | val_loss=0.0587  recall=0.606  precision=0.618  F=0.612  @thresh=0.185  | REAL(2) d@high +0.049 | mean -68.1% r=0.59 worst -70.6%  [saved best, +0.219 vs baseline]
+
+  REAL(2) d@high +0.060 | mean -67.1% r=0.59 worst -69.5%
+epoch 16/40  train_loss=0.0687  [-> nmp_salience_finetuned_conv_e16.weights.h5]  | val_loss=0.0587  recall=0.599  precision=0.624  F=0.612  @thresh=0.200  | REAL(2) d@high +0.060 | mean -67.1% r=0.59 worst -69.5%
+
+  REAL(2) d@high +0.075 | mean -66.2% r=0.60 worst -68.6%
+  step 280 (epoch 17, batch 8/17)  train_loss=0.0688  [-> nmp_salience_finetuned_conv_e17_s000280.weights.h5]  | val_loss=0.0586  recall=0.609  precision=0.617  F=0.613  @thresh=0.200  | REAL(2) d@high +0.075 | mean -66.2% r=0.60 worst -68.6%  [saved best, +0.220 vs baseline]
+
+  REAL(2) d@high +0.071 | mean -66.4% r=0.59 worst -68.9%
+epoch 17/40  train_loss=0.0684  [-> nmp_salience_finetuned_conv_e17.weights.h5]  | val_loss=0.0581  recall=0.601  precision=0.637  F=0.618  @thresh=0.215  | REAL(2) d@high +0.071 | mean -66.4% r=0.59 worst -68.9%  [saved best, +0.225 vs baseline]
+
+  REAL(2) d@high +0.075 | mean -66.0% r=0.59 worst -68.5%
+  step 290 (epoch 18, batch 1/17)  train_loss=0.0718  [-> nmp_salience_finetuned_conv_e18_s000290.weights.h5]  | val_loss=0.0581  recall=0.604  precision=0.634  F=0.619  @thresh=0.215  | REAL(2) d@high +0.075 | mean -66.0% r=0.59 worst -68.5%  [saved best, +0.225 vs baseline]
+
+  REAL(2) d@high +0.075 | mean -66.6% r=0.59 worst -69.0%
+  step 300 (epoch 18, batch 11/17)  train_loss=0.0690  [-> nmp_salience_finetuned_conv_e18_s000300.weights.h5]  | val_loss=0.0578  recall=0.605  precision=0.639  F=0.622  @thresh=0.215  | REAL(2) d@high +0.075 | mean -66.6% r=0.59 worst -69.0%  [saved best, +0.228 vs baseline]
+
+  REAL(2) d@high +0.061 | mean -68.8% r=0.59 worst -71.3%
+epoch 18/40  train_loss=0.0673  [-> nmp_salience_finetuned_conv_e18.weights.h5]  | val_loss=0.0576  recall=0.615  precision=0.630  F=0.622  @thresh=0.185  | REAL(2) d@high +0.061 | mean -68.8% r=0.59 worst -71.3%  [saved best, +0.229 vs baseline]
+
+  REAL(2) d@high +0.085 | mean -66.0% r=0.59 worst -68.5%
+  step 310 (epoch 19, batch 4/17)  train_loss=0.0687  [-> nmp_salience_finetuned_conv_e19_s000310.weights.h5]  | val_loss=0.0576  recall=0.612  precision=0.636  F=0.624  @thresh=0.215  | REAL(2) d@high +0.085 | mean -66.0% r=0.59 worst -68.5%  [saved best, +0.231 vs baseline]
+
+  REAL(2) d@high +0.064 | mean -69.0% r=0.59 worst -71.6%
+  step 320 (epoch 19, batch 14/17)  train_loss=0.0671  [-> nmp_salience_finetuned_conv_e19_s000320.weights.h5]  | val_loss=0.0572  recall=0.620  precision=0.636  F=0.627  @thresh=0.185  | REAL(2) d@high +0.064 | mean -69.0% r=0.59 worst -71.6%  [saved best, +0.234 vs baseline]
+
+  REAL(2) d@high +0.075 | mean -67.9% r=0.59 worst -70.4%
+epoch 19/40  train_loss=0.0672  [-> nmp_salience_finetuned_conv_e19.weights.h5]  | val_loss=0.0571  recall=0.617  precision=0.640  F=0.628  @thresh=0.200  | REAL(2) d@high +0.075 | mean -67.9% r=0.59 worst -70.4%  [saved best, +0.235 vs baseline]
+
+  REAL(2) d@high +0.072 | mean -68.0% r=0.59 worst -70.6%
+  step 330 (epoch 20, batch 7/17)  train_loss=0.0677  [-> nmp_salience_finetuned_conv_e20_s000330.weights.h5]  | val_loss=0.0569  recall=0.619  precision=0.643  F=0.631  @thresh=0.200  | REAL(2) d@high +0.072 | mean -68.0% r=0.59 worst -70.6%  [saved best, +0.237 vs baseline]
+
+  REAL(2) d@high +0.086 | mean -66.8% r=0.59 worst -69.4%
+epoch 20/40  train_loss=0.0665  [-> nmp_salience_finetuned_conv_e20.weights.h5]  | val_loss=0.0567  recall=0.617  precision=0.648  F=0.632  @thresh=0.215  | REAL(2) d@high +0.086 | mean -66.8% r=0.59 worst -69.4%  [saved best, +0.239 vs baseline]
+
+  REAL(2) d@high +0.109 | mean -64.9% r=0.60 worst -67.3%
+  step 350 (epoch 21, batch 10/17)  train_loss=0.0645  [-> nmp_salience_finetuned_conv_e21_s000350.weights.h5]  | val_loss=0.0569  recall=0.620  precision=0.641  F=0.630  @thresh=0.230  | REAL(2) d@high +0.109 | mean -64.9% r=0.60 worst -67.3%
+
+  REAL(2) d@high +0.082 | mean -68.4% r=0.60 worst -71.0%
+epoch 21/40  train_loss=0.0664  [-> nmp_salience_finetuned_conv_e21.weights.h5]  | val_loss=0.0563  recall=0.632  precision=0.632  F=0.632  @thresh=0.185  | REAL(2) d@high +0.082 | mean -68.4% r=0.60 worst -71.0%
+
+  REAL(2) d@high +0.081 | mean -68.4% r=0.60 worst -70.9%
+  step 360 (epoch 22, batch 3/17)  train_loss=0.0632  [-> nmp_salience_finetuned_conv_e22_s000360.weights.h5]  | val_loss=0.0562  recall=0.620  precision=0.647  F=0.633  @thresh=0.200  | REAL(2) d@high +0.081 | mean -68.4% r=0.60 worst -70.9%  [saved best, +0.240 vs baseline]
+
+  REAL(2) d@high +0.088 | mean -67.0% r=0.59 worst -69.5%
+  step 370 (epoch 22, batch 13/17)  train_loss=0.0666  [-> nmp_salience_finetuned_conv_e22_s000370.weights.h5]  | val_loss=0.0560  recall=0.627  precision=0.652  F=0.639  @thresh=0.215  | REAL(2) d@high +0.088 | mean -67.0% r=0.59 worst -69.5%  [saved best, +0.246 vs baseline]
+
+  REAL(2) d@high +0.084 | mean -67.6% r=0.59 worst -70.1%
+epoch 22/40  train_loss=0.0658  [-> nmp_salience_finetuned_conv_e22.weights.h5]  | val_loss=0.0559  recall=0.637  precision=0.646  F=0.641  @thresh=0.200  | REAL(2) d@high +0.084 | mean -67.6% r=0.59 worst -70.1%  [saved best, +0.248 vs baseline]
+
+  REAL(2) d@high +0.086 | mean -68.0% r=0.59 worst -70.6%
+  step 380 (epoch 23, batch 6/17)  train_loss=0.0619  [-> nmp_salience_finetuned_conv_e23_s000380.weights.h5]  | val_loss=0.0558  recall=0.620  precision=0.663  F=0.641  @thresh=0.215  | REAL(2) d@high +0.086 | mean -68.0% r=0.59 worst -70.6%
+
+  REAL(2) d@high +0.079 | mean -69.2% r=0.59 worst -71.8%
+  step 390 (epoch 23, batch 16/17)  train_loss=0.0690  [-> nmp_salience_finetuned_conv_e23_s000390.weights.h5]  | val_loss=0.0556  recall=0.622  precision=0.660  F=0.640  @thresh=0.200  | REAL(2) d@high +0.079 | mean -69.2% r=0.59 worst -71.8%
+
+  REAL(2) d@high +0.077 | mean -69.5% r=0.59 worst -72.1%
+epoch 23/40  train_loss=0.0651  [-> nmp_salience_finetuned_conv_e23.weights.h5]  | val_loss=0.0556  recall=0.620  precision=0.662  F=0.640  @thresh=0.200  | REAL(2) d@high +0.077 | mean -69.5% r=0.59 worst -72.1%
+
+  REAL(2) d@high +0.104 | mean -66.5% r=0.59 worst -69.0%
+  step 400 (epoch 24, batch 9/17)  train_loss=0.0657  [-> nmp_salience_finetuned_conv_e24_s000400.weights.h5]  | val_loss=0.0556  recall=0.636  precision=0.648  F=0.642  @thresh=0.215  | REAL(2) d@high +0.104 | mean -66.5% r=0.59 worst -69.0%  [saved best, +0.249 vs baseline]
+
+  REAL(2) d@high +0.092 | mean -68.2% r=0.59 worst -70.8%
+epoch 24/40  train_loss=0.0649  [-> nmp_salience_finetuned_conv_e24.weights.h5]  | val_loss=0.0553  recall=0.649  precision=0.637  F=0.643  @thresh=0.185  | REAL(2) d@high +0.092 | mean -68.2% r=0.59 worst -70.8%  [saved best, +0.250 vs baseline]
+
+  REAL(2) d@high +0.092 | mean -68.3% r=0.59 worst -70.9%
+  step 410 (epoch 25, batch 2/17)  train_loss=0.0669  [-> nmp_salience_finetuned_conv_e25_s000410.weights.h5]  | val_loss=0.0553  recall=0.648  precision=0.638  F=0.643  @thresh=0.185  | REAL(2) d@high +0.092 | mean -68.3% r=0.59 worst -70.9%
+
+  REAL(2) d@high +0.097 | mean -68.3% r=0.60 worst -70.9%
+  step 420 (epoch 25, batch 12/17)  train_loss=0.0658  [-> nmp_salience_finetuned_conv_e25_s000420.weights.h5]  | val_loss=0.0552  recall=0.647  precision=0.636  F=0.641  @thresh=0.185  | REAL(2) d@high +0.097 | mean -68.3% r=0.60 worst -70.9%
+
+  REAL(2) d@high +0.099 | mean -68.0% r=0.60 worst -70.6%
+epoch 25/40  train_loss=0.0648  [-> nmp_salience_finetuned_conv_e25.weights.h5]  | val_loss=0.0551  recall=0.651  precision=0.634  F=0.643  @thresh=0.185  | REAL(2) d@high +0.099 | mean -68.0% r=0.60 worst -70.6%
+
+  REAL(2) d@high +0.092 | mean -68.7% r=0.60 worst -71.3%
+  step 430 (epoch 26, batch 5/17)  train_loss=0.0686  [-> nmp_salience_finetuned_conv_e26_s000430.weights.h5]  | val_loss=0.0549  recall=0.649  precision=0.642  F=0.646  @thresh=0.185  | REAL(2) d@high +0.092 | mean -68.7% r=0.60 worst -71.3%  [saved best, +0.252 vs baseline]
+
+  REAL(2) d@high +0.078 | mean -70.1% r=0.59 worst -72.7%
+  step 440 (epoch 26, batch 15/17)  train_loss=0.0631  [-> nmp_salience_finetuned_conv_e26_s000440.weights.h5]  | val_loss=0.0547  recall=0.643  precision=0.657  F=0.650  @thresh=0.185  | REAL(2) d@high +0.078 | mean -70.1% r=0.59 worst -72.7%  [saved best, +0.257 vs baseline]
+
+  REAL(2) d@high +0.082 | mean -69.5% r=0.59 worst -72.1%
+epoch 26/40  train_loss=0.0643  [-> nmp_salience_finetuned_conv_e26.weights.h5]  | val_loss=0.0546  recall=0.649  precision=0.652  F=0.651  @thresh=0.185  | REAL(2) d@high +0.082 | mean -69.5% r=0.59 worst -72.1%  [saved best, +0.258 vs baseline]
+
+  REAL(2) d@high +0.098 | mean -68.0% r=0.59 worst -70.5%
+  step 450 (epoch 27, batch 8/17)  train_loss=0.0648  [-> nmp_salience_finetuned_conv_e27_s000450.weights.h5]  | val_loss=0.0546  recall=0.651  precision=0.652  F=0.652  @thresh=0.200  | REAL(2) d@high +0.098 | mean -68.0% r=0.59 worst -70.5%  [saved best, +0.258 vs baseline]
+
+  REAL(2) d@high +0.099 | mean -68.3% r=0.59 worst -70.8%
+epoch 27/40  train_loss=0.0643  [-> nmp_salience_finetuned_conv_e27.weights.h5]  | val_loss=0.0545  recall=0.649  precision=0.653  F=0.651  @thresh=0.200  | REAL(2) d@high +0.099 | mean -68.3% r=0.59 worst -70.8%
+
+  REAL(2) d@high +0.098 | mean -68.4% r=0.59 worst -71.0%
+  step 460 (epoch 28, batch 1/17)  train_loss=0.0616  [-> nmp_salience_finetuned_conv_e28_s000460.weights.h5]  | val_loss=0.0545  recall=0.647  precision=0.653  F=0.650  @thresh=0.200  | REAL(2) d@high +0.098 | mean -68.4% r=0.59 worst -71.0%
+
+  REAL(2) d@high +0.107 | mean -67.6% r=0.59 worst -70.1%
+  step 470 (epoch 28, batch 11/17)  train_loss=0.0667  [-> nmp_salience_finetuned_conv_e28_s000470.weights.h5]  | val_loss=0.0545  recall=0.655  precision=0.647  F=0.651  @thresh=0.200  | REAL(2) d@high +0.107 | mean -67.6% r=0.59 worst -70.1%
+
+  REAL(2) d@high +0.081 | mean -70.5% r=0.59 worst -73.1%
+epoch 28/40  train_loss=0.0638  [-> nmp_salience_finetuned_conv_e28.weights.h5]  | val_loss=0.0542  recall=0.645  precision=0.659  F=0.652  @thresh=0.185  | REAL(2) d@high +0.081 | mean -70.5% r=0.59 worst -73.1%  [saved best, +0.259 vs baseline]
+
+  REAL(2) d@high +0.101 | mean -68.3% r=0.59 worst -70.8%
+  step 480 (epoch 29, batch 4/17)  train_loss=0.0613  [-> nmp_salience_finetuned_conv_e29_s000480.weights.h5]  | val_loss=0.0542  recall=0.653  precision=0.653  F=0.653  @thresh=0.200  | REAL(2) d@high +0.101 | mean -68.3% r=0.59 worst -70.8%  [saved best, +0.260 vs baseline]
+
+  REAL(2) d@high +0.104 | mean -68.3% r=0.59 worst -70.8%
+  step 490 (epoch 29, batch 14/17)  train_loss=0.0658  [-> nmp_salience_finetuned_conv_e29_s000490.weights.h5]  | val_loss=0.0541  recall=0.654  precision=0.652  F=0.653  @thresh=0.200  | REAL(2) d@high +0.104 | mean -68.3% r=0.59 worst -70.8%
+
+  REAL(2) d@high +0.101 | mean -68.7% r=0.60 worst -71.3%
+epoch 29/40  train_loss=0.0637  [-> nmp_salience_finetuned_conv_e29.weights.h5]  | val_loss=0.0540  recall=0.650  precision=0.656  F=0.653  @thresh=0.200  | REAL(2) d@high +0.101 | mean -68.7% r=0.60 worst -71.3%
+
+  REAL(2) d@high +0.097 | mean -69.4% r=0.60 worst -72.0%
+  step 500 (epoch 30, batch 7/17)  train_loss=0.0649  [-> nmp_salience_finetuned_conv_e30_s000500.weights.h5]  | val_loss=0.0540  recall=0.657  precision=0.648  F=0.652  @thresh=0.185  | REAL(2) d@high +0.097 | mean -69.4% r=0.60 worst -72.0%
+
+  REAL(2) d@high +0.124 | mean -66.2% r=0.59 worst -68.6%
+epoch 30/40  train_loss=0.0636  [-> nmp_salience_finetuned_conv_e30.weights.h5]  | val_loss=0.0542  recall=0.650  precision=0.660  F=0.655  @thresh=0.230  | REAL(2) d@high +0.124 | mean -66.2% r=0.59 worst -68.6%  [saved best, +0.262 vs baseline]
+
+  REAL(2) d@high +0.117 | mean -67.0% r=0.59 worst -69.5%
+  step 520 (epoch 31, batch 10/17)  train_loss=0.0650  [-> nmp_salience_finetuned_conv_e31_s000520.weights.h5]  | val_loss=0.0539  recall=0.644  precision=0.668  F=0.655  @thresh=0.230  | REAL(2) d@high +0.117 | mean -67.0% r=0.59 worst -69.5%  [saved best, +0.262 vs baseline]
+
+  REAL(2) d@high +0.080 | mean -71.0% r=0.59 worst -73.7%
+epoch 31/40  train_loss=0.0632  [-> nmp_salience_finetuned_conv_e31.weights.h5]  | val_loss=0.0535  recall=0.652  precision=0.668  F=0.660  @thresh=0.185  | REAL(2) d@high +0.080 | mean -71.0% r=0.59 worst -73.7%  [saved best, +0.266 vs baseline]
+
+  REAL(2) d@high +0.087 | mean -70.4% r=0.59 worst -73.1%
+  step 530 (epoch 32, batch 3/17)  train_loss=0.0564  [-> nmp_salience_finetuned_conv_e32_s000530.weights.h5]  | val_loss=0.0535  recall=0.655  precision=0.661  F=0.658  @thresh=0.185  | REAL(2) d@high +0.087 | mean -70.4% r=0.59 worst -73.1%
+
+  REAL(2) d@high +0.096 | mean -69.4% r=0.59 worst -72.1%
+  step 540 (epoch 32, batch 13/17)  train_loss=0.0638  [-> nmp_salience_finetuned_conv_e32_s000540.weights.h5]  | val_loss=0.0534  recall=0.654  precision=0.666  F=0.660  @thresh=0.200  | REAL(2) d@high +0.096 | mean -69.4% r=0.59 worst -72.1%
+
+  REAL(2) d@high +0.112 | mean -68.0% r=0.59 worst -70.6%
+epoch 32/40  train_loss=0.0632  [-> nmp_salience_finetuned_conv_e32.weights.h5]  | val_loss=0.0536  recall=0.651  precision=0.664  F=0.657  @thresh=0.215  | REAL(2) d@high +0.112 | mean -68.0% r=0.59 worst -70.6%
+
+  REAL(2) d@high +0.090 | mean -70.8% r=0.60 worst -73.5%
+  step 550 (epoch 33, batch 6/17)  train_loss=0.0598  [-> nmp_salience_finetuned_conv_e33_s000550.weights.h5]  | val_loss=0.0534  recall=0.646  precision=0.661  F=0.653  @thresh=0.185  | REAL(2) d@high +0.090 | mean -70.8% r=0.60 worst -73.5%
+
+  REAL(2) d@high +0.113 | mean -67.9% r=0.59 worst -70.4%
+  step 560 (epoch 33, batch 16/17)  train_loss=0.0645  [-> nmp_salience_finetuned_conv_e33_s000560.weights.h5]  | val_loss=0.0534  recall=0.655  precision=0.663  F=0.659  @thresh=0.215  | REAL(2) d@high +0.113 | mean -67.9% r=0.59 worst -70.4%
+
+  REAL(2) d@high +0.102 | mean -69.1% r=0.59 worst -71.7%
+epoch 33/40  train_loss=0.0629  [-> nmp_salience_finetuned_conv_e33.weights.h5]  | val_loss=0.0533  recall=0.657  precision=0.662  F=0.660  @thresh=0.200  | REAL(2) d@high +0.102 | mean -69.1% r=0.59 worst -71.7%
+
+  REAL(2) d@high +0.105 | mean -68.5% r=0.59 worst -71.1%
+  step 570 (epoch 34, batch 9/17)  train_loss=0.0617  [-> nmp_salience_finetuned_conv_e34_s000570.weights.h5]  | val_loss=0.0532  recall=0.653  precision=0.670  F=0.662  @thresh=0.215  | REAL(2) d@high +0.105 | mean -68.5% r=0.59 worst -71.1%  [saved best, +0.268 vs baseline]
+
+  REAL(2) d@high +0.102 | mean -69.0% r=0.59 worst -71.6%
+epoch 34/40  train_loss=0.0630  [-> nmp_salience_finetuned_conv_e34.weights.h5]  | val_loss=0.0531  recall=0.651  precision=0.674  F=0.662  @thresh=0.215  | REAL(2) d@high +0.102 | mean -69.0% r=0.59 worst -71.6%  [saved best, +0.269 vs baseline]
+
+  REAL(2) d@high +0.113 | mean -68.2% r=0.59 worst -70.8%
+  step 580 (epoch 35, batch 2/17)  train_loss=0.0636  [-> nmp_salience_finetuned_conv_e35_s000580.weights.h5]  | val_loss=0.0532  recall=0.654  precision=0.665  F=0.659  @thresh=0.215  | REAL(2) d@high +0.113 | mean -68.2% r=0.59 worst -70.8%
+
+  REAL(2) d@high +0.115 | mean -68.9% r=0.60 worst -71.5%
+  step 590 (epoch 35, batch 12/17)  train_loss=0.0612  [-> nmp_salience_finetuned_conv_e35_s000590.weights.h5]  | val_loss=0.0532  recall=0.640  precision=0.665  F=0.652  @thresh=0.215  | REAL(2) d@high +0.115 | mean -68.9% r=0.60 worst -71.5%
+
+  REAL(2) d@high +0.099 | mean -70.4% r=0.60 worst -73.0%
+epoch 35/40  train_loss=0.0625  [-> nmp_salience_finetuned_conv_e35.weights.h5]  | val_loss=0.0530  recall=0.655  precision=0.655  F=0.655  @thresh=0.185  | REAL(2) d@high +0.099 | mean -70.4% r=0.60 worst -73.0%
+
+  REAL(2) d@high +0.101 | mean -69.7% r=0.59 worst -72.4%
+  step 600 (epoch 36, batch 5/17)  train_loss=0.0623  [-> nmp_salience_finetuned_conv_e36_s000600.weights.h5]  | val_loss=0.0529  recall=0.655  precision=0.666  F=0.661  @thresh=0.200  | REAL(2) d@high +0.101 | mean -69.7% r=0.59 worst -72.4%
+
+  REAL(2) d@high +0.086 | mean -71.1% r=0.59 worst -73.7%
+  step 610 (epoch 36, batch 15/17)  train_loss=0.0633  [-> nmp_salience_finetuned_conv_e36_s000610.weights.h5]  | val_loss=0.0527  recall=0.650  precision=0.682  F=0.666  @thresh=0.200  | REAL(2) d@high +0.086 | mean -71.1% r=0.59 worst -73.7%  [saved best, +0.272 vs baseline]
+
+  REAL(2) d@high +0.086 | mean -71.1% r=0.59 worst -73.8%
+epoch 36/40  train_loss=0.0623  [-> nmp_salience_finetuned_conv_e36.weights.h5]  | val_loss=0.0527  recall=0.649  precision=0.681  F=0.664  @thresh=0.200  | REAL(2) d@high +0.086 | mean -71.1% r=0.59 worst -73.8%
+
+  REAL(2) d@high +0.098 | mean -70.3% r=0.59 worst -72.9%
+  step 620 (epoch 37, batch 8/17)  train_loss=0.0616  [-> nmp_salience_finetuned_conv_e37_s000620.weights.h5]  | val_loss=0.0527  recall=0.653  precision=0.670  F=0.662  @thresh=0.200  | REAL(2) d@high +0.098 | mean -70.3% r=0.59 worst -72.9%
+
+  REAL(2) d@high +0.100 | mean -70.3% r=0.59 worst -72.9%
+epoch 37/40  train_loss=0.0623  [-> nmp_salience_finetuned_conv_e37.weights.h5]  | val_loss=0.0527  recall=0.650  precision=0.668  F=0.659  @thresh=0.200  | REAL(2) d@high +0.100 | mean -70.3% r=0.59 worst -72.9%
+
+  REAL(2) d@high +0.104 | mean -69.9% r=0.59 worst -72.5%
+  step 630 (epoch 38, batch 1/17)  train_loss=0.0605  [-> nmp_salience_finetuned_conv_e38_s000630.weights.h5]  | val_loss=0.0527  recall=0.654  precision=0.665  F=0.660  @thresh=0.200  | REAL(2) d@high +0.104 | mean -69.9% r=0.59 worst -72.5%
+
+  REAL(2) d@high +0.098 | mean -70.6% r=0.60 worst -73.3%
+  step 640 (epoch 38, batch 11/17)  train_loss=0.0644  [-> nmp_salience_finetuned_conv_e38_s000640.weights.h5]  | val_loss=0.0526  recall=0.649  precision=0.670  F=0.659  @thresh=0.200  | REAL(2) d@high +0.098 | mean -70.6% r=0.60 worst -73.3%
+
+  REAL(2) d@high +0.104 | mean -69.8% r=0.59 worst -72.4%
+epoch 38/40  train_loss=0.0620  [-> nmp_salience_finetuned_conv_e38.weights.h5]  | val_loss=0.0525  recall=0.647  precision=0.677  F=0.662  @thresh=0.215  | REAL(2) d@high +0.104 | mean -69.8% r=0.59 worst -72.4%
+
+  REAL(2) d@high +0.092 | mean -70.9% r=0.59 worst -73.6%
+  step 650 (epoch 39, batch 4/17)  train_loss=0.0582  [-> nmp_salience_finetuned_conv_e39_s000650.weights.h5]  | val_loss=0.0524  recall=0.640  precision=0.689  F=0.664  @thresh=0.215  | REAL(2) d@high +0.092 | mean -70.9% r=0.59 worst -73.6%
+
+  REAL(2) d@high +0.096 | mean -70.8% r=0.59 worst -73.5%
+  step 660 (epoch 39, batch 14/17)  train_loss=0.0637  [-> nmp_salience_finetuned_conv_e39_s000660.weights.h5]  | val_loss=0.0524  recall=0.652  precision=0.673  F=0.662  @thresh=0.200  | REAL(2) d@high +0.096 | mean -70.8% r=0.59 worst -73.5%
+
+  REAL(2) d@high +0.103 | mean -69.9% r=0.59 worst -72.6%
+epoch 39/40  train_loss=0.0623  [-> nmp_salience_finetuned_conv_e39.weights.h5]  | val_loss=0.0523  recall=0.650  precision=0.678  F=0.663  @thresh=0.215  | REAL(2) d@high +0.103 | mean -69.9% r=0.59 worst -72.6%
+
+  REAL(2) d@high +0.103 | mean -69.9% r=0.59 worst -72.5%
+  step 670 (epoch 40, batch 7/17)  train_loss=0.0638  [-> nmp_salience_finetuned_conv_e40_s000670.weights.h5]  | val_loss=0.0523  recall=0.662  precision=0.665  F=0.663  @thresh=0.200  | REAL(2) d@high +0.103 | mean -69.9% r=0.59 worst -72.5%
+
+  REAL(2) d@high +0.099 | mean -70.3% r=0.59 worst -72.9%
+epoch 40/40  train_loss=0.0617  [-> nmp_salience_finetuned_conv_e40.weights.h5]  | val_loss=0.0522  recall=0.648  precision=0.681  F=0.664  @thresh=0.215  | REAL(2) d@high +0.099 | mean -70.3% r=0.59 worst -72.9%
+Best (highest F, guards satisfied) weights saved to ./nmp_salience_finetuned_conv.weights.h5 -- from e36_s000610, F 0.666 vs baseline 0.393
+
+checkpoint summary
+  e01_s000010 | val_loss=0.1319  recall=0.480  precision=0.458  F=0.469  @thresh=0.170
+  e01         | val_loss=0.1245  recall=0.454  precision=0.473  F=0.463  @thresh=0.155
+  e02_s000020 | val_loss=0.1222  recall=0.394  precision=0.525  F=0.450  @thresh=0.170
+  e02_s000030 | val_loss=0.1157  recall=0.421  precision=0.506  F=0.460  @thresh=0.170
+  e02         | val_loss=0.1131  recall=0.427  precision=0.520  F=0.469  @thresh=0.170
+  e03_s000040 | val_loss=0.1092  recall=0.459  precision=0.542  F=0.497  @thresh=0.170
+  e03_s000050 | val_loss=0.1028  recall=0.540  precision=0.530  F=0.535  @thresh=0.155
+  e03         | val_loss=0.1022  recall=0.543  precision=0.532  F=0.537  @thresh=0.155
+  e04_s000060 | val_loss=0.0968  recall=0.582  precision=0.523  F=0.551  @thresh=0.155
+  e04         | val_loss=0.0923  recall=0.578  precision=0.521  F=0.548  @thresh=0.155
+  e05_s000070 | val_loss=0.0912  recall=0.578  precision=0.517  F=0.546  @thresh=0.155
+  e05_s000080 | val_loss=0.0862  recall=0.559  precision=0.527  F=0.543  @thresh=0.170
+  e05         | val_loss=0.0838  recall=0.557  precision=0.526  F=0.541  @thresh=0.170
+  e06_s000090 | val_loss=0.0817  recall=0.541  precision=0.541  F=0.541  @thresh=0.185
+  e06_s000100 | val_loss=0.0779  recall=0.539  precision=0.547  F=0.543  @thresh=0.185
+  e06         | val_loss=0.0773  recall=0.541  precision=0.545  F=0.543  @thresh=0.185
+  e07_s000110 | val_loss=0.0749  recall=0.549  precision=0.541  F=0.545  @thresh=0.185
+  e07         | val_loss=0.0727  recall=0.551  precision=0.541  F=0.546  @thresh=0.185
+  e08_s000120 | val_loss=0.0724  recall=0.554  precision=0.538  F=0.546  @thresh=0.185
+  e08_s000130 | val_loss=0.0704  recall=0.552  precision=0.546  F=0.549  @thresh=0.170
+  e08         | val_loss=0.0694  recall=0.550  precision=0.555  F=0.552  @thresh=0.200
+  e09_s000140 | val_loss=0.0685  recall=0.557  precision=0.555  F=0.556  @thresh=0.185
+  e09_s000150 | val_loss=0.0673  recall=0.547  precision=0.572  F=0.559  @thresh=0.215
+  e09         | val_loss=0.0669  recall=0.546  precision=0.574  F=0.560  @thresh=0.215
+  e10_s000160 | val_loss=0.0659  recall=0.558  precision=0.567  F=0.562  @thresh=0.185
+  e10         | val_loss=0.0649  recall=0.553  precision=0.584  F=0.568  @thresh=0.215
+  e11_s000180 | val_loss=0.0638  recall=0.574  precision=0.573  F=0.573  @thresh=0.185
+  e11         | val_loss=0.0635  recall=0.562  precision=0.592  F=0.576  @thresh=0.215
+  e12_s000190 | val_loss=0.0633  recall=0.565  precision=0.589  F=0.577  @thresh=0.215
+  e12_s000200 | val_loss=0.0625  recall=0.559  precision=0.604  F=0.580  @thresh=0.215
+  e12         | val_loss=0.0621  recall=0.566  precision=0.605  F=0.585  @thresh=0.200
+  e13_s000210 | val_loss=0.0616  recall=0.565  precision=0.612  F=0.588  @thresh=0.200
+  e13_s000220 | val_loss=0.0611  recall=0.583  precision=0.598  F=0.590  @thresh=0.200
+  e13         | val_loss=0.0610  recall=0.578  precision=0.604  F=0.590  @thresh=0.200
+  e14_s000230 | val_loss=0.0606  recall=0.569  precision=0.621  F=0.594  @thresh=0.215
+  e14         | val_loss=0.0604  recall=0.577  precision=0.618  F=0.597  @thresh=0.230
+  e15_s000240 | val_loss=0.0605  recall=0.584  precision=0.611  F=0.597  @thresh=0.230
+  e15_s000250 | val_loss=0.0597  recall=0.574  precision=0.630  F=0.601  @thresh=0.215
+  e15         | val_loss=0.0594  recall=0.577  precision=0.632  F=0.603  @thresh=0.215
+  e16_s000260 | val_loss=0.0593  recall=0.592  precision=0.622  F=0.607  @thresh=0.215
+  e16_s000270 | val_loss=0.0587  recall=0.606  precision=0.618  F=0.612  @thresh=0.185
+  e16         | val_loss=0.0587  recall=0.599  precision=0.624  F=0.612  @thresh=0.200
+  e17_s000280 | val_loss=0.0586  recall=0.609  precision=0.617  F=0.613  @thresh=0.200
+  e17         | val_loss=0.0581  recall=0.601  precision=0.637  F=0.618  @thresh=0.215
+  e18_s000290 | val_loss=0.0581  recall=0.604  precision=0.634  F=0.619  @thresh=0.215
+  e18_s000300 | val_loss=0.0578  recall=0.605  precision=0.639  F=0.622  @thresh=0.215
+  e18         | val_loss=0.0576  recall=0.615  precision=0.630  F=0.622  @thresh=0.185
+  e19_s000310 | val_loss=0.0576  recall=0.612  precision=0.636  F=0.624  @thresh=0.215
+  e19_s000320 | val_loss=0.0572  recall=0.620  precision=0.636  F=0.627  @thresh=0.185
+  e19         | val_loss=0.0571  recall=0.617  precision=0.640  F=0.628  @thresh=0.200
+  e20_s000330 | val_loss=0.0569  recall=0.619  precision=0.643  F=0.631  @thresh=0.200
+  e20         | val_loss=0.0567  recall=0.617  precision=0.648  F=0.632  @thresh=0.215
+  e21_s000350 | val_loss=0.0569  recall=0.620  precision=0.641  F=0.630  @thresh=0.230
+  e21         | val_loss=0.0563  recall=0.632  precision=0.632  F=0.632  @thresh=0.185
+  e22_s000360 | val_loss=0.0562  recall=0.620  precision=0.647  F=0.633  @thresh=0.200
+  e22_s000370 | val_loss=0.0560  recall=0.627  precision=0.652  F=0.639  @thresh=0.215
+  e22         | val_loss=0.0559  recall=0.637  precision=0.646  F=0.641  @thresh=0.200
+  e23_s000380 | val_loss=0.0558  recall=0.620  precision=0.663  F=0.641  @thresh=0.215
+  e23_s000390 | val_loss=0.0556  recall=0.622  precision=0.660  F=0.640  @thresh=0.200
+  e23         | val_loss=0.0556  recall=0.620  precision=0.662  F=0.640  @thresh=0.200
+  e24_s000400 | val_loss=0.0556  recall=0.636  precision=0.648  F=0.642  @thresh=0.215
+  e24         | val_loss=0.0553  recall=0.649  precision=0.637  F=0.643  @thresh=0.185
+  e25_s000410 | val_loss=0.0553  recall=0.648  precision=0.638  F=0.643  @thresh=0.185
+  e25_s000420 | val_loss=0.0552  recall=0.647  precision=0.636  F=0.641  @thresh=0.185
+  e25         | val_loss=0.0551  recall=0.651  precision=0.634  F=0.643  @thresh=0.185
+  e26_s000430 | val_loss=0.0549  recall=0.649  precision=0.642  F=0.646  @thresh=0.185
+  e26_s000440 | val_loss=0.0547  recall=0.643  precision=0.657  F=0.650  @thresh=0.185
+  e26         | val_loss=0.0546  recall=0.649  precision=0.652  F=0.651  @thresh=0.185
+  e27_s000450 | val_loss=0.0546  recall=0.651  precision=0.652  F=0.652  @thresh=0.200
+  e27         | val_loss=0.0545  recall=0.649  precision=0.653  F=0.651  @thresh=0.200
+  e28_s000460 | val_loss=0.0545  recall=0.647  precision=0.653  F=0.650  @thresh=0.200
+  e28_s000470 | val_loss=0.0545  recall=0.655  precision=0.647  F=0.651  @thresh=0.200
+  e28         | val_loss=0.0542  recall=0.645  precision=0.659  F=0.652  @thresh=0.185
+  e29_s000480 | val_loss=0.0542  recall=0.653  precision=0.653  F=0.653  @thresh=0.200
+  e29_s000490 | val_loss=0.0541  recall=0.654  precision=0.652  F=0.653  @thresh=0.200
+  e29         | val_loss=0.0540  recall=0.650  precision=0.656  F=0.653  @thresh=0.200
+  e30_s000500 | val_loss=0.0540  recall=0.657  precision=0.648  F=0.652  @thresh=0.185
+  e30         | val_loss=0.0542  recall=0.650  precision=0.660  F=0.655  @thresh=0.230
+  e31_s000520 | val_loss=0.0539  recall=0.644  precision=0.668  F=0.655  @thresh=0.230
+  e31         | val_loss=0.0535  recall=0.652  precision=0.668  F=0.660  @thresh=0.185
+  e32_s000530 | val_loss=0.0535  recall=0.655  precision=0.661  F=0.658  @thresh=0.185
+  e32_s000540 | val_loss=0.0534  recall=0.654  precision=0.666  F=0.660  @thresh=0.200
+  e32         | val_loss=0.0536  recall=0.651  precision=0.664  F=0.657  @thresh=0.215
+  e33_s000550 | val_loss=0.0534  recall=0.646  precision=0.661  F=0.653  @thresh=0.185
+  e33_s000560 | val_loss=0.0534  recall=0.655  precision=0.663  F=0.659  @thresh=0.215
+  e33         | val_loss=0.0533  recall=0.657  precision=0.662  F=0.660  @thresh=0.200
+  e34_s000570 | val_loss=0.0532  recall=0.653  precision=0.670  F=0.662  @thresh=0.215
+  e34         | val_loss=0.0531  recall=0.651  precision=0.674  F=0.662  @thresh=0.215
+  e35_s000580 | val_loss=0.0532  recall=0.654  precision=0.665  F=0.659  @thresh=0.215
+  e35_s000590 | val_loss=0.0532  recall=0.640  precision=0.665  F=0.652  @thresh=0.215
+  e35         | val_loss=0.0530  recall=0.655  precision=0.655  F=0.655  @thresh=0.185
+  e36_s000600 | val_loss=0.0529  recall=0.655  precision=0.666  F=0.661  @thresh=0.200
+  e36_s000610 | val_loss=0.0527  recall=0.650  precision=0.682  F=0.666  @thresh=0.200
+  e36         | val_loss=0.0527  recall=0.649  precision=0.681  F=0.664  @thresh=0.200
+  e37_s000620 | val_loss=0.0527  recall=0.653  precision=0.670  F=0.662  @thresh=0.200
+  e37         | val_loss=0.0527  recall=0.650  precision=0.668  F=0.659  @thresh=0.200
+  e38_s000630 | val_loss=0.0527  recall=0.654  precision=0.665  F=0.660  @thresh=0.200
+  e38_s000640 | val_loss=0.0526  recall=0.649  precision=0.670  F=0.659  @thresh=0.200
+  e38         | val_loss=0.0525  recall=0.647  precision=0.677  F=0.662  @thresh=0.215
+  e39_s000650 | val_loss=0.0524  recall=0.640  precision=0.689  F=0.664  @thresh=0.215
+  e39_s000660 | val_loss=0.0524  recall=0.652  precision=0.673  F=0.662  @thresh=0.200
+  e39         | val_loss=0.0523  recall=0.650  precision=0.678  F=0.663  @thresh=0.215
+  e40_s000670 | val_loss=0.0523  recall=0.662  precision=0.665  F=0.663  @thresh=0.200
+  e40         | val_loss=0.0522  recall=0.648  precision=0.681  F=0.664  @thresh=0.215
