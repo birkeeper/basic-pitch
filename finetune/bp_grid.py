@@ -271,3 +271,32 @@ def salience_to_multif0(salience, threshold=0.5, interpolate=True):
         delta = float(np.clip(delta, -0.5, 0.5))  # a peak cannot belong to another bin
         est_freqs[t].append(float(np.exp(log_grid[k] + delta * (log_grid[1] - log_grid[0]))))
     return times, [np.array(lst) for lst in est_freqs]
+
+
+def target_to_multif0(target, threshold=0.5):
+    """Per-frame reference f0 lists from a ridge target: one entry per VOICE.
+
+    Not `target > threshold`. A ridge normalised to peak 1 puts two bins over
+    0.5 whenever the pitch sits more than about a fifth of a bin off centre --
+    and both bins read exactly 1.0 when it sits halfway between them -- so
+    thresholding counts each voice once or twice depending on its tuning. Used
+    as a reference for multipitch scoring that inflates the voice count (8.8 per
+    frame on four-to-six part chords here) and caps recall near 0.5 for a model
+    that is answering perfectly.
+
+    Instead each contiguous run of bins above `threshold` is taken as one voice
+    and reduced to a single frequency by its centre of mass in log frequency,
+    which recovers the sub-bin position the ridge was built to encode.
+    """
+    log_grid = np.log(FREQ_BINS_CONTOURS)
+    out = []
+    for row in np.asarray(target):
+        hits = np.flatnonzero(row > threshold)
+        freqs = []
+        if len(hits):
+            # split where the bin index jumps: each run is one voice
+            for run in np.split(hits, np.flatnonzero(np.diff(hits) > 1) + 1):
+                w = row[run]
+                freqs.append(float(np.exp(np.average(log_grid[run], weights=w))))
+        out.append(np.array(freqs))
+    return out
