@@ -14,9 +14,19 @@ pretrained background floor (Basic Pitch trained with label smoothing, so its
 background sits near 0.10), which moves the useful operating point, so a
 threshold carried over from one model understates the other.
 
+--save_salience writes the raw salience map to .npz, in the same format
+multif0-estimation-polyvocals/predict_on_audio.py --save_salience uses --
+compressed float16, plus the frequency/time grids needed to interpret it -- so
+finetune/compare_voice_salience.py can compare a Basic Pitch salience map
+against a model3 one, or a pretrained Basic Pitch head against a fine-tuned one,
+without re-running inference. The array is saved as (freq, time), the multif0
+convention and the orientation compare_voice_salience.py's indexing assumes,
+even though this model's own contour output is (time, freq).
+
 Usage:
     python scripts/predict_and_plot.py path/to/audio.wav [--output-dir DIR]
     python scripts/predict_and_plot.py path/to/audio.wav --weights ft.weights.h5 --thresh 0.2
+    python scripts/predict_and_plot.py path/to/audio.wav --save_salience
 """
 
 import argparse
@@ -94,6 +104,31 @@ def save_multif0(times, freqs, path):
             writer.writerow([t] + list(np.atleast_1d(fs)))
 
 
+def save_salience_map(contour, save_path, model_name, thresh, weights_path=None):
+    """Store the raw salience map so it can be re-analysed without re-running
+    inference -- e.g. finetune/compare_voice_salience.py sweeping voices or
+    thresholds offline.
+
+    Same format as multif0-estimation-polyvocals's predict_on_audio.py
+    --save_salience: compressed float16 (salience is in [0, 1], so ~3 decimal
+    digits is ample), plus the frequency and time grids needed to interpret it.
+
+    Saved as (freq, time) -- `contour` here is (time, freq), Basic Pitch's own
+    convention, but compare_voice_salience.py's indexing (`sal[lo:hi, k]`, freq
+    first) assumes the multif0 layout, so the array is transposed on the way out
+    rather than asking that script to know which model produced its input.
+    """
+    freq_grid = bp_grid.get_freq_grid()
+    time_grid = bp_grid.get_time_grid(contour.shape[0])
+    np.savez_compressed(
+        save_path,
+        salience=contour.T.astype(np.float16),
+        freq_grid=freq_grid, time_grid=time_grid,
+        model_name=model_name, thresh=thresh if thresh is not None else -1.0,
+        weights_path=weights_path if weights_path is not None else "",
+    )
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -118,6 +153,12 @@ def main():
         help="Peak-picking threshold. Overlays the detected F0s on the plot and "
              "writes them as a multi-F0 CSV. Model-dependent -- see the module "
              "docstring -- so re-check it rather than reusing one across models.",
+    )
+    parser.add_argument(
+        "--save_salience",
+        action="store_true",
+        help="Also write the raw salience map to <stem>_<tag>_salience.npz, in "
+             "the format finetune/compare_voice_salience.py reads.",
     )
     args = parser.parse_args()
 
@@ -150,6 +191,12 @@ def main():
         title += "  (thresh %.3f)" % args.thresh
     plot_salience(contour, salience_path, title, est)
     print("Saved salience plot to %s" % salience_path)
+
+    if args.save_salience:
+        npz_path = output_dir / ("%s_%s_salience.npz" % (audio_path.stem, tag))
+        weights_path = args.weights if args.weights else str(DEFAULT_MODEL_DIR)
+        save_salience_map(contour, npz_path, tag, args.thresh, weights_path=weights_path)
+        print("Saved salience map to %s" % npz_path)
 
     if not args.weights:
         _out, _midi, note_events = predict(audio_path, model_or_model_path=MODEL_PATH)

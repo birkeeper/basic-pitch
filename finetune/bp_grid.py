@@ -233,16 +233,24 @@ def read_f0_csv(path, cents_offset=0.0):
     return np.array(times), np.array(freqs)
 
 
-def salience_to_multif0(salience, threshold=0.5):
+def salience_to_multif0(salience, threshold=0.5, interpolate=True):
     """Peak-pick a (n_frames, 264) salience map into per-frame f0 lists.
 
-    The Basic Pitch counterpart of `utils_train.pitch_activations_to_mf0`,
-    transposed: peaks are found along frequency, which is now axis 1.
+    Peaks are found along frequency (axis 1, transposed against the multif0
+    convention).
+
+    `interpolate` refines each peak to sub-bin precision by fitting a parabola
+    to the log of the peak and its two neighbours, which recovers the centre of
+    a Gaussian ridge exactly. Without it every detection is a bin centre, so the
+    finest pitch distinction reportable is 33.3 cents and any intonation figure
+    derived from the output is quantised to the grid rather than measured -- the
+    ridge targets exist precisely so this information is there to recover.
     """
     import scipy.signal
 
     times = get_time_grid(salience.shape[0])
     freqs = get_freq_grid()
+    log_grid = np.log(freqs)
 
     peaks = scipy.signal.argrelmax(salience, axis=1)
     picked = np.zeros_like(salience)
@@ -250,35 +258,16 @@ def salience_to_multif0(salience, threshold=0.5):
 
     frame_idx, bin_idx = np.where(picked >= threshold)
     est_freqs = [[] for _ in range(len(times))]
-    for t, f in zip(frame_idx, bin_idx):
-        est_freqs[t].append(freqs[f])
+    for t, k in zip(frame_idx, bin_idx):
+        if not interpolate or k == 0 or k == salience.shape[1] - 1:
+            est_freqs[t].append(freqs[k])
+            continue
+        a, b, c = salience[t, k - 1], salience[t, k], salience[t, k + 1]
+        denom = np.log(max(a, 1e-12)) - 2 * np.log(max(b, 1e-12)) + np.log(max(c, 1e-12))
+        if denom == 0:
+            est_freqs[t].append(freqs[k])
+            continue
+        delta = 0.5 * (np.log(max(a, 1e-12)) - np.log(max(c, 1e-12))) / denom
+        delta = float(np.clip(delta, -0.5, 0.5))  # a peak cannot belong to another bin
+        est_freqs[t].append(float(np.exp(log_grid[k] + delta * (log_grid[1] - log_grid[0]))))
     return times, [np.array(lst) for lst in est_freqs]
-
-
-def target_to_multif0(target, threshold=0.5):
-    """Per-frame reference f0 lists from a ridge target: one entry per VOICE.
-
-    Not `target > threshold`. A ridge normalised to peak 1 puts two bins over
-    0.5 whenever the pitch sits more than about a fifth of a bin off centre --
-    and both bins read exactly 1.0 when it sits halfway between them -- so
-    thresholding counts each voice once or twice depending on its tuning. Used
-    as a reference for multipitch scoring that inflates the voice count (8.8 per
-    frame on four-to-six part chords here) and caps recall near 0.5 for a model
-    that is answering perfectly.
-
-    Instead each contiguous run of bins above `threshold` is taken as one voice
-    and reduced to a single frequency by its centre of mass in log frequency,
-    which recovers the sub-bin position the ridge was built to encode.
-    """
-    log_grid = np.log(FREQ_BINS_CONTOURS)
-    out = []
-    for row in np.asarray(target):
-        hits = np.flatnonzero(row > threshold)
-        freqs = []
-        if len(hits):
-            # split where the bin index jumps: each run is one voice
-            for run in np.split(hits, np.flatnonzero(np.diff(hits) > 1) + 1):
-                w = row[run]
-                freqs.append(float(np.exp(np.average(log_grid[run], weights=w))))
-        out.append(np.array(freqs))
-    return out

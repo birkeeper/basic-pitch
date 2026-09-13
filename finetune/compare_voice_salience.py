@@ -360,18 +360,26 @@ def report_detection(models, chords, scale, offset, tol_cents, thresh, base):
     Swept rather than reported at one setting because §the whole-map comparison
     may already have shown the models sit at different operating points; a
     single shared threshold would then measure calibration, not accuracy. The
-    matched-count row is the fair head-to-head."""
+    matched-count row is the fair head-to-head.
+
+    Ground truth and peak-picking both use each model's OWN grid (frequency and
+    time), not the base model's. Two different architectures need not even agree
+    on frame count for the same audio -- Basic Pitch's fixed-window inference and
+    model3's whole-file HCQT round differently at the edges -- so reusing the
+    base's grid for another model's array would index it with the wrong
+    frequencies (or raise IndexError once the bin counts differ), and reusing
+    the base's ground-truth frame list would compare that model's frame k
+    against a timestamp that is not what frame k actually covers."""
     names = list(models)
-    fgrid, tgrid = models[base][1], models[base][2]
-    gt = frame_ground_truth(chords, tgrid, scale, offset)
-    n_gt = sum(len(x) for x in gt)
+    gt = {n: frame_ground_truth(chords, models[n][2], scale, offset) for n in names}
+    n_gt = sum(len(x) for x in gt[base])
     if not n_gt:
         print("\n(detection accuracy skipped: the score covers none of the audio)")
         return
 
     grid = np.arange(0.15, 0.81, 0.05)
-    picked = {n: {t: peak_pick(models[n][0], fgrid, t) for t in grid} for n in names}
-    res = {n: {t: detection_scores(picked[n][t], gt, tol_cents) for t in grid}
+    picked = {n: {t: peak_pick(models[n][0], models[n][1], t) for t in grid} for n in names}
+    res = {n: {t: detection_scores(picked[n][t], gt[n], tol_cents) for t in grid}
            for n in names}
 
     print("\n" + "=" * 62)
@@ -387,7 +395,7 @@ def report_detection(models, chords, scale, offset, tol_cents, thresh, base):
                     max(grid, key=lambda t: res[n][t][2])) for n in names))
 
     # fair head-to-head: same number of detections
-    ref_n = sum(len(f) for f in peak_pick(models[base][0], fgrid, thresh))
+    ref_n = sum(len(f) for f in peak_pick(models[base][0], models[base][1], thresh))
     print("\n  Matched operating point -- each model at the threshold giving the")
     print("  same number of detections as %s at %.2f (%d peaks):" % (base, thresh, ref_n))
     for n in names:
@@ -395,30 +403,42 @@ def report_detection(models, chords, scale, offset, tol_cents, thresh, base):
             eq = thresh
         else:
             fine = np.arange(0.05, 0.95, 0.01)
-            counts = [sum(len(f) for f in peak_pick(models[n][0], fgrid, t)) for t in fine]
+            counts = [sum(len(f) for f in peak_pick(models[n][0], models[n][1], t)) for t in fine]
             eq = float(fine[int(np.argmin(np.abs(np.array(counts) - ref_n)))])
-        est = peak_pick(models[n][0], fgrid, eq)
-        p, r, f1 = detection_scores(est, gt, tol_cents)
+        est = peak_pick(models[n][0], models[n][1], eq)
+        p, r, f1 = detection_scores(est, gt[n], tol_cents)
         print("    %-10s @%.2f  P=%.3f R=%.3f F=%.3f  (%d peaks)"
               % (n, eq, p, r, f1, sum(len(x) for x in est)))
 
 
 def fit_warp(models, chords, tol_cents, scales, offsets):
-    """Choose (scale, offset) by correlating the salience map with a mask built
-    from the score. Correlation -- unlike the mean salience under the mask --
-    cannot be inflated by squeezing the score onto the loud part of the audio,
-    because shrinking the mask is penalised by the frames it then leaves
-    unexplained. Averaged over models so both are aligned identically."""
-    sal = np.mean([m[0] for m in models.values()], axis=0)
-    fgrid, tgrid = list(models.values())[0][1], list(models.values())[0][2]
-    flat = sal.ravel().astype(np.float64)
+    """Choose (scale, offset) by correlating each model's salience map with a
+    mask built from the score, ON THAT MODEL'S OWN frequency/time grid, and
+    averaging the per-model correlations. Correlation -- unlike the mean
+    salience under the mask -- cannot be inflated by squeezing the score onto
+    the loud part of the audio, because shrinking the mask is penalised by the
+    frames it then leaves unexplained.
+
+    Averaging CORRELATIONS rather than averaging the salience ARRAYS themselves
+    (as an earlier version did) is what lets this work when models come from
+    different architectures: Basic Pitch's 264-bin grid and model3's 360-bin one
+    do not even have the same number of frames for the same audio, so there is
+    no shared array to average into one map. One (scale, offset) that fits every
+    model's own grid jointly is still well-defined; one averaged array is not."""
+    flats = [(m[0].ravel().astype(np.float64), m[1], m[2]) for m in models.values()]
     best = None
     for sc in scales:
         for off in offsets:
-            m = score_mask(chords, fgrid, tgrid, sc, off, tol_cents).ravel()
-            if m.sum() < 10 or m.all():
+            corrs = []
+            for flat, fgrid, tgrid in flats:
+                m = score_mask(chords, fgrid, tgrid, sc, off, tol_cents).ravel()
+                if m.sum() < 10 or m.all():
+                    corrs = None
+                    break
+                corrs.append(np.corrcoef(flat, m.astype(np.float64))[0, 1])
+            if corrs is None:
                 continue
-            c = np.corrcoef(flat, m.astype(np.float64))[0, 1]
+            c = float(np.mean(corrs))
             if best is None or c > best[0]:
                 best = (c, sc, off)
     if best is None:
@@ -464,9 +484,10 @@ def main(args):
         scale, offset, q = fit_warp(models, chords, args.tol,
                                     np.arange(0.70, 1.31, 0.01),
                                     np.arange(-0.50, 0.51, 0.02))
+        r_label = "mean score/salience r" if len(models) > 1 else "score/salience r"
         print("warp : scale=%.3f offset=%+.3f (fitted; performance %+.0f%% vs score "
-              "tempo, score/salience correlation r=%.3f)"
-              % (scale, offset, (1.0 / scale - 1) * 100, q))
+              "tempo, %s=%.3f)"
+              % (scale, offset, (1.0 / scale - 1) * 100, r_label, q))
 
     names = list(models)
     if not args.no_detection:
