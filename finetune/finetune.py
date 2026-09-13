@@ -257,13 +257,38 @@ def build_model(weights_path, strategy):
     return model
 
 
-def make_bkld(pos_weight=1.0):
+def make_bkld(pos_weight=1.0, focal_gamma=0.0):
     """Binary cross-entropy, optionally upweighting positive (annotated voice)
-    target bins by pos_weight.
+    target bins by pos_weight and/or focusing on hard bins by focal_gamma.
 
     No label smoothing: Basic Pitch pretrained with 0.2 against single-bin
     targets, but these targets are ridges whose shoulders carry the sub-bin
     pitch, and smoothing squashes exactly those.
+
+    `focal_gamma` scales each branch of the cross-entropy by how wrong it
+    currently is -- (1-p)**g on the positive branch, p**g on the negative one --
+    which is the only lever here that distinguishes voices by PROMINENCE.
+    pos_weight cannot: it gates on `y_true > 0.5`, so it lifts a barely-audible
+    soprano and a booming bass by exactly the same factor. Plain BCE already
+    pushes harder on the quiet voice (at p=0.20 against a target of 1 the
+    gradient is -0.80, against -0.15 for a loud voice at p=0.85, so ~5x); g=2
+    turns that ratio into ~28x.
+
+    Note what this does NOT need to fix. Voices are not weighted unevenly in the
+    target to begin with: create_annotation_target normalises every voice's
+    ridge to peak 1 and combines them with `maximum`, so each sounding voice
+    contributes an identical ridge of identical mass regardless of how loud it
+    actually was. An explicit per-voice reweighting would therefore be a no-op.
+    The imbalance is entirely in the model's OUTPUT, which is why the correction
+    has to be a function of y_pred.
+
+    The whole term is renormalised by the mean modulation, exactly as
+    make_distill_loss does for its own gamma, so the supervised loss keeps its
+    scale as focal_gamma changes. Without that, g=2 shrinks this term by more
+    than an order of magnitude -- most bins are easy background whose p**g is
+    ~0 -- and a fixed --distill_lambda would silently turn the run into almost
+    pure distillation. The normaliser is stop_gradient'd: it is a scale, and
+    letting the model reduce the loss by inflating it would be a free lunch.
 
     Accepts an optional per-frame `mask` of shape (batch, T): 1 where the label
     is known, 0 where it is not. Real recordings need this. Inside a chord's
@@ -278,20 +303,43 @@ def make_bkld(pos_weight=1.0):
     """
     eps = 1e-7
     pw = float(pos_weight)
+    g = float(focal_gamma)
 
     def loss(y_true, y_pred, mask=None):
         y_true = tf.clip_by_value(y_true, eps, 1.0 - eps)
         y_pred = tf.clip_by_value(y_pred, eps, 1.0 - eps)
-        per = -(y_true * tf.math.log(y_pred) + (1.0 - y_true) * tf.math.log(1.0 - y_pred))
+        if g > 0.0:
+            # Modulate each branch by its OWN difficulty. Weighting the summed
+            # cross-entropy by one factor instead would be wrong for these soft
+            # ridge targets, where the shoulders carry both branches at once.
+            fpos = tf.pow(1.0 - y_pred, g)
+            fneg = tf.pow(y_pred, g)
+            per = -(y_true * fpos * tf.math.log(y_pred)
+                    + (1.0 - y_true) * fneg * tf.math.log(1.0 - y_pred))
+            mod = y_true * fpos + (1.0 - y_true) * fneg
+        else:
+            per = -(y_true * tf.math.log(y_pred)
+                    + (1.0 - y_true) * tf.math.log(1.0 - y_pred))
+            mod = None
         if pw != 1.0:
             w = 1.0 + (pw - 1.0) * tf.cast(y_true > 0.5, per.dtype)
             per = per * w
+            if mod is not None:
+                mod = mod * w
         if mask is None:
+            if mod is not None:
+                per = per / tf.maximum(tf.stop_gradient(tf.reduce_mean(mod)), eps)
             return tf.reduce_mean(per)
         # per is (batch, T, F); the mask is per FRAME, so it broadcasts over F.
         m = tf.cast(mask, per.dtype)[:, :, tf.newaxis]
         denom = tf.reduce_sum(m) * tf.cast(tf.shape(per)[2], per.dtype)
-        return tf.reduce_sum(per * m) / tf.maximum(denom, eps)
+        denom = tf.maximum(denom, eps)
+        if mod is not None:
+            # Same masked mean as the loss itself, so the two agree about which
+            # bins exist.
+            norm = tf.stop_gradient(tf.reduce_sum(mod * m) / denom)
+            per = per / tf.maximum(norm, eps)
+        return tf.reduce_sum(per * m) / denom
 
     return loss
 
@@ -577,7 +625,7 @@ HIGH_PCT = 99.5           # percentile of the baseline defining its 'confident' 
 # Candidate peak thresholds swept per checkpoint when --thresh is left at auto.
 # Starts well below the pretrained model's 0.10 floor, because a fine-tuned
 # model's background drops toward 0 and its best operating point moves with it.
-THRESH_GRID = np.round(np.arange(0.02, 0.451, 0.015), 4)
+THRESH_GRID = np.round(np.arange(0.02, 0.8, 0.015), 4)
 
 
 def drift_stats(base_sals, sals):
@@ -693,7 +741,7 @@ def train(args):
 
     model = build_model(args.weights, args.strategy)
     opt = tf.keras.optimizers.Adam(learning_rate=args.lr)
-    loss_fn = make_bkld(args.pos_weight)
+    loss_fn = make_bkld(args.pos_weight, args.focal_gamma)
     # pos_weight is deliberately NOT applied to the anchor: its 'y_true > 0.5'
     # test would upweight bins wherever the TEACHER happened to be confident,
     # which is unrelated to the annotated-voice reweighting it exists for.
@@ -1011,6 +1059,15 @@ if __name__ == '__main__':
                         % _QUIET_MAX)
     p.add_argument('--pos_weight', type=float, default=1.0,
                    help='loss upweight on annotated (voice) target bins (1.0 = off)')
+    p.add_argument('--focal_gamma', type=float, default=0.0,
+                   help='focus the supervised loss on bins the model currently '
+                        'gets wrong: (1-p)**g on the positive branch, p**g on '
+                        'the negative one (0 = off, plain BCE). Unlike '
+                        '--pos_weight, which lifts every annotated bin equally, '
+                        'this lifts a quiet voice more than a loud one, so it '
+                        'is the lever for prominence-independent salience. '
+                        'Try 1-2; the term is renormalised so --distill_lambda '
+                        'keeps its meaning.')
     p.add_argument('--bal_tol', type=float, default=0.03,
                    help='max allowed regression of recall or precision, vs the '
                         'pre-training baseline, when selecting the best epoch')

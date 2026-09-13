@@ -152,5 +152,6 @@ junit.xml
 finetune/data/
 finetune/results/run01/models/
 finetune/results/run02/models/
+finetune/results/run03/models/
 !nmp_*.log
 

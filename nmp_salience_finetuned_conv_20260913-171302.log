@@ -1,0 +1,48 @@
+==============================================================================
+run started 2026-09-13 17:13:02
+args: {"TEST": null, "bal_tol": 0.03, "batch_size": 10, "distill_dir": "./finetune/data/distill", "distill_gamma": 0.5, "distill_lambda": 1.0, "distill_quiet_cap": 0.33, "drift_high_tol": 0.15, "epochs": 40, "eval_every": 0, "focal_gamma": 2.0, "l2sp": 0.001, "lr": 0.0001, "out": "./nmp_salience_finetuned_conv.weights.h5", "pos_weight": 3.0, "real_audio": ["./finetune/data/heroes_opname.flac", "./finetune/data/My Love_opname.flac"], "save_every_epoch": true, "seed": 0, "strategy": "conv", "thresh": null, "train_dir": "./finetune/data/train", "valid_dir": "./finetune/data/valid", "weights": "/home/birkeeper/Documents/git/basic-pitch/basic_pitch/saved_models/icassp_2022/nmp"}
+==============================================================================
+Output weights: ./nmp_salience_finetuned_conv.weights.h5
+Logging to ./nmp_salience_finetuned_conv_20260913-171302.log
+Using 167 prepared windows in ./finetune/data/train
+Real-audio drift screen: heroes_opname.flac
+Real-audio drift screen: My Love_opname.flac
+Loaded 7733 salience parameters from /home/birkeeper/Documents/git/basic-pitch/basic_pitch/saved_models/icassp_2022/nmp/variables/variables
+Strategy 'conv': 2 trainable layer(s), 7697 parameters ['conv2d', 'contours-reduced']
+L2-SP anchoring 2 kernels (lambda=0.001)
+baseline     | val_loss=1.4989  recall=0.527  precision=0.453  F=0.487  @thresh=0.170
+  Ren Lenny_opname.flac                    110 windows
+  Sweet child of mine_opname.flac          124 windows
+  That don't impress me much_opname.flac   130 windows
+  multicolor_opname.flac                   150 windows
+Distilling on 514 real windows (17.0 min), lambda=1 gamma=0.5
+
+  REAL(2) d@high +0.299 | mean +81.2% r=0.66 worst +72.9%
+epoch 1/40  train_loss=1.0571 distill=0.3679  [-> nmp_salience_finetuned_conv_e01.weights.h5]  | val_loss=0.6033  recall=0.675  precision=0.338  F=0.451  @thresh=0.440  | REAL(2) d@high +0.299 | mean +81.2% r=0.66 worst +72.9%  [rejected: precision 0.338<0.423]
+
+  REAL(2) d@high +0.225 | mean +52.0% r=0.73 worst +47.6%
+epoch 2/40  train_loss=0.6881 distill=0.4038  [-> nmp_salience_finetuned_conv_e02.weights.h5]  | val_loss=0.6697  recall=0.575  precision=0.503  F=0.536  @thresh=0.425  | REAL(2) d@high +0.225 | mean +52.0% r=0.73 worst +47.6%  [saved best, +0.049 vs baseline]
+
+  REAL(2) d@high +0.264 | mean +63.2% r=0.68 worst +57.5%
+epoch 3/40  train_loss=0.7176 distill=0.3838  [-> nmp_salience_finetuned_conv_e03.weights.h5]  | val_loss=0.6089  recall=0.638  precision=0.470  F=0.541  @thresh=0.440  | REAL(2) d@high +0.264 | mean +63.2% r=0.68 worst +57.5%  [saved best, +0.054 vs baseline]
+
+  REAL(2) d@high +0.259 | mean +56.7% r=0.69 worst +51.7%
+epoch 4/40  train_loss=0.6929 distill=0.3863  [-> nmp_salience_finetuned_conv_e04.weights.h5]  | val_loss=0.6174  recall=0.635  precision=0.507  F=0.564  @thresh=0.440  | REAL(2) d@high +0.259 | mean +56.7% r=0.69 worst +51.7%  [saved best, +0.077 vs baseline]
+
+  REAL(2) d@high +0.255 | mean +53.2% r=0.68 worst +48.4%
+epoch 5/40  train_loss=0.6854 distill=0.3867  [-> nmp_salience_finetuned_conv_e05.weights.h5]  | val_loss=0.6173  recall=0.645  precision=0.529  F=0.582  @thresh=0.440  | REAL(2) d@high +0.255 | mean +53.2% r=0.68 worst +48.4%  [saved best, +0.094 vs baseline]
+
+  REAL(2) d@high +0.206 | mean +49.7% r=0.63 worst +45.0%
+epoch 6/40  train_loss=0.6751 distill=0.3856  [-> nmp_salience_finetuned_conv_e06.weights.h5]  | val_loss=0.6052  recall=0.676  precision=0.566  F=0.616  @thresh=0.440  | REAL(2) d@high +0.206 | mean +49.7% r=0.63 worst +45.0%  [saved best, +0.129 vs baseline]
+
+  REAL(2) d@high +0.202 | mean +50.5% r=0.59 worst +45.5%
+epoch 7/40  train_loss=0.6572 distill=0.3866  [-> nmp_salience_finetuned_conv_e07.weights.h5]  | val_loss=0.5896  recall=0.712  precision=0.546  F=0.618  @thresh=0.440  | REAL(2) d@high +0.202 | mean +50.5% r=0.59 worst +45.5%  [saved best, +0.131 vs baseline]
+
+  REAL(2) d@high +0.215 | mean +48.9% r=0.58 worst +44.2%
+epoch 8/40  train_loss=0.6596 distill=0.3839  [-> nmp_salience_finetuned_conv_e08.weights.h5]  | val_loss=0.5918  recall=0.731  precision=0.527  F=0.612  @thresh=0.440  | REAL(2) d@high +0.215 | mean +48.9% r=0.58 worst +44.2%
+
+  REAL(2) d@high +0.204 | mean +45.0% r=0.57 worst +40.8%
+epoch 9/40  train_loss=0.6590 distill=0.3846  [-> nmp_salience_finetuned_conv_e09.weights.h5]  | val_loss=0.5976  recall=0.734  precision=0.536  F=0.619  @thresh=0.440  | REAL(2) d@high +0.204 | mean +45.0% r=0.57 worst +40.8%  [saved best, +0.132 vs baseline]
+
+  REAL(2) d@high +0.192 | mean +41.0% r=0.55 worst +37.4%
+epoch 10/40  train_loss=0.6663 distill=0.3833  [-> nmp_salience_finetuned_conv_e10.weights.h5]  | val_loss=0.6051  recall=0.728  precision=0.550  F=0.627  @thresh=0.440  | REAL(2) d@high +0.192 | mean +41.0% r=0.55 worst +37.4%  [saved best, +0.139 vs baseline]
