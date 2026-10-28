@@ -50,7 +50,7 @@ def check_geometry():
           % (len(wins), T.HOP_SIZE, T.HOP_SIZE / 256.0, T.OVERLAP_LEN // 2))
 
 
-def check_lag(audio_path, teacher_npz, max_shift=4.0, step=0.25, time_fix=True):
+def check_lag(audio_path, teacher_npz, max_shift=12.0, step=0.25, time_fix=True):
     import finetune as F   # imports TF; kept out of the geometry check
     model = F.build_model(F.DEFAULT_MODEL_DIR, 'full')
     wins, orig_len = F.audio_windows(audio_path)
@@ -70,7 +70,7 @@ def check_lag(audio_path, teacher_npz, max_shift=4.0, step=0.25, time_fix=True):
     # Central frames only: the window edges are where bp itself is least reliable.
     sl = slice(N_EDGE, ANNOT_N_FRAMES - N_EDGE)
     for si, s in enumerate(shifts):
-        tw, tm = T.sample_windows(grid, n, offset=s)
+        tw, tm = T.sample_windows(grid, n, offset=T.TEACHER_OFFSET_FRAMES + s)
         for k in range(n):
             m = tm[k, sl]
             if m.sum() < 40:

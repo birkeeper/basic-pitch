@@ -57,6 +57,12 @@ AUDIO_EXTS = ('.wav', '.flac', '.ogg')
 # before the shared time axis assumption is rejected.
 _DT_TOL = 1e-6
 
+# model3's frames sit this many frames later than Basic Pitch's. Measured with
+# check_alignment.py as the mean-correlation-optimal shift: +4.0 to +4.5 frames
+# on 4 of 5 songs (+5.75 on the fifth, whose first run clipped at +4.0), ~49 ms.
+# Teacher windows are sampled at position + TEACHER_OFFSET_FRAMES.
+TEACHER_OFFSET_FRAMES = 4.25
+
 
 def song_id(path):
     """'late_nolowbass_take06.wav' -> 'late_nolowbass'. Takes of one song must
@@ -171,7 +177,7 @@ def teacher_windows(teacher_npz, n_windows):
     """Teacher targets for one file: (windows, time_mask, bin_mask)."""
     sal, freq = load_teacher(teacher_npz)
     grid, bin_mask = regrid_freq(to_true_time(sal), freq)
-    win, tmask = sample_windows(grid, n_windows)
+    win, tmask = sample_windows(grid, n_windows, offset=TEACHER_OFFSET_FRAMES)
     win[..., ~bin_mask] = 0.0
     return win, tmask, bin_mask
 
