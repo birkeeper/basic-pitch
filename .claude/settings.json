@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd /home/birkeeper/Documents/git/basic-pitch && grep -n \"def unwrap_output\" -A25 basic_pitch/inference.py; grep -n \"def get_audio_input\" -A30 basic_pitch/inference.py; grep -n \"OVERLAP\\\\|N_OVERLAP\\\\|ANNOT_N_FRAMES\\\\|AUDIO_N_SAMPLES\\\\|FFT_HOP\\\\|MIDI_OFFSET\\\\|BINS\" basic_pitch/constants.py; grep -n \"def build_salience_model\" -A12 scripts/convert_model_to_savedmodel.py; sed -n 100,130p finetune/finetune.py | head -0; ls ~/.. >/dev/null; which python; ls .venv venv 2>/dev/null | head -3)",
+      "Read(//home/**)",
+      "Bash(time ../.venv/bin/python check_alignment.py data/alles.flac)",
+      "Bash(cd /home/birkeeper && ls finetune 2>/dev/null; ls -d Documents/git/basic-pitch/finetune/data/alles* 2>&1; ls Downloads | grep -i \"alles\\\\|salience.npz\")",
+      "Read(//home/birkeeper/**)"
+    ]
+  }
+}
