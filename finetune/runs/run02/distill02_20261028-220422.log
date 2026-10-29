@@ -1,0 +1,212 @@
+==============================================================================
+run started 2026-10-28 22:04:22
+args: {"batch_size": 10, "cache": "finetune/data/model3_cache", "epochs": 100, "l2sp": 0.0, "lr": 3e-05, "max_windows": null, "out": "finetune/runs/distill02.weights.h5", "save_every_epoch": true, "seed": 0, "strategy": "full", "thresh": 0.3, "weights": "finetune/runs/distill01_e16.weights.h5"}
+==============================================================================
+Output weights: finetune/runs/distill02.weights.h5
+Logging to finetune/runs/distill02_20261028-220422.log
+finetune/data/model3_cache/train: 3388 windows from 23 recordings, 23 songs, 216 in-band bins
+finetune/data/model3_cache/valid: 1072 windows from 8 recordings, 8 songs, 216 in-band bins
+Loaded weights from finetune/runs/distill01_e16.weights.h5
+Strategy 'full': 4 trainable layer(s), 7715 parameters ['batch_normalization', 'conv2d', 'batch_normalization_1', 'contours-reduced']
+epoch 0 (pretrained)  val bce=0.0632 mse=0.00313 corr=0.799 | peaks P=0.847 R=0.560 F=0.674 | resid by loudness quartile (quiet->loud) +0.0002 -0.0012 -0.0012 -0.0011
+
+epoch 1/100  train_loss=0.0600  val bce=0.0629 mse=0.00305 corr=0.799 | peaks P=0.806 R=0.635 F=0.710 | resid by loudness quartile (quiet->loud) +0.0017 +0.0010 +0.0011 +0.0014  [-> distill02_e01.weights.h5]  [saved best, bce -0.0003 vs pretrained]
+
+epoch 2/100  train_loss=0.0600  val bce=0.0628 mse=0.00307 corr=0.798 | peaks P=0.826 R=0.602 F=0.696 | resid by loudness quartile (quiet->loud) -0.0001 -0.0014 -0.0016 -0.0014  [-> distill02_e02.weights.h5]  [saved best, bce -0.0004 vs pretrained]
+
+epoch 3/100  train_loss=0.0599  val bce=0.0628 mse=0.00304 corr=0.800 | peaks P=0.819 R=0.616 F=0.703 | resid by loudness quartile (quiet->loud) +0.0005 -0.0005 -0.0005 -0.0003  [-> distill02_e03.weights.h5]  [saved best, bce -0.0004 vs pretrained]
+
+epoch 4/100  train_loss=0.0599  val bce=0.0627 mse=0.00303 corr=0.800 | peaks P=0.809 R=0.634 F=0.711 | resid by loudness quartile (quiet->loud) +0.0010 +0.0003 +0.0003 +0.0007  [-> distill02_e04.weights.h5]  [saved best, bce -0.0005 vs pretrained]
+
+epoch 5/100  train_loss=0.0599  val bce=0.0627 mse=0.00305 corr=0.799 | peaks P=0.827 R=0.603 F=0.698 | resid by loudness quartile (quiet->loud) +0.0002 -0.0011 -0.0012 -0.0010  [-> distill02_e05.weights.h5]
+
+epoch 6/100  train_loss=0.0598  val bce=0.0627 mse=0.00305 corr=0.800 | peaks P=0.829 R=0.600 F=0.696 | resid by loudness quartile (quiet->loud) -0.0003 -0.0017 -0.0018 -0.0017  [-> distill02_e06.weights.h5]  [saved best, bce -0.0005 vs pretrained]
+
+epoch 7/100  train_loss=0.0598  val bce=0.0633 mse=0.00318 corr=0.796 | peaks P=0.851 R=0.551 F=0.669 | resid by loudness quartile (quiet->loud) -0.0019 -0.0041 -0.0044 -0.0044  [-> distill02_e07.weights.h5]
+
+epoch 8/100  train_loss=0.0598  val bce=0.0626 mse=0.00301 corr=0.801 | peaks P=0.812 R=0.630 F=0.710 | resid by loudness quartile (quiet->loud) +0.0006 -0.0000 +0.0000 +0.0003  [-> distill02_e08.weights.h5]  [saved best, bce -0.0006 vs pretrained]
+
+epoch 9/100  train_loss=0.0598  val bce=0.0627 mse=0.00305 corr=0.800 | peaks P=0.830 R=0.599 F=0.696 | resid by loudness quartile (quiet->loud) +0.0001 -0.0012 -0.0013 -0.0011  [-> distill02_e09.weights.h5]
+
+epoch 10/100  train_loss=0.0597  val bce=0.0627 mse=0.00302 corr=0.799 | peaks P=0.797 R=0.653 F=0.718 | resid by loudness quartile (quiet->loud) +0.0018 +0.0014 +0.0015 +0.0018  [-> distill02_e10.weights.h5]
+
+epoch 11/100  train_loss=0.0597  val bce=0.0625 mse=0.00300 corr=0.802 | peaks P=0.820 R=0.621 F=0.707 | resid by loudness quartile (quiet->loud) +0.0005 -0.0005 -0.0005 -0.0003  [-> distill02_e11.weights.h5]  [saved best, bce -0.0007 vs pretrained]
+
+epoch 12/100  train_loss=0.0597  val bce=0.0625 mse=0.00300 corr=0.802 | peaks P=0.816 R=0.627 F=0.709 | resid by loudness quartile (quiet->loud) +0.0006 -0.0005 -0.0006 -0.0004  [-> distill02_e12.weights.h5]  [saved best, bce -0.0007 vs pretrained]
+
+epoch 13/100  train_loss=0.0597  val bce=0.0627 mse=0.00304 corr=0.799 | peaks P=0.821 R=0.615 F=0.703 | resid by loudness quartile (quiet->loud) -0.0007 -0.0021 -0.0022 -0.0022  [-> distill02_e13.weights.h5]
+
+epoch 14/100  train_loss=0.0596  val bce=0.0629 mse=0.00309 corr=0.800 | peaks P=0.844 R=0.576 F=0.685 | resid by loudness quartile (quiet->loud) -0.0016 -0.0035 -0.0037 -0.0038  [-> distill02_e14.weights.h5]
+
+epoch 15/100  train_loss=0.0596  val bce=0.0627 mse=0.00306 corr=0.800 | peaks P=0.839 R=0.586 F=0.690 | resid by loudness quartile (quiet->loud) -0.0012 -0.0029 -0.0031 -0.0031  [-> distill02_e15.weights.h5]
+
+epoch 16/100  train_loss=0.0596  val bce=0.0625 mse=0.00300 corr=0.802 | peaks P=0.821 R=0.619 F=0.706 | resid by loudness quartile (quiet->loud) +0.0005 -0.0004 -0.0004 -0.0002  [-> distill02_e16.weights.h5]  [saved best, bce -0.0007 vs pretrained]
+
+epoch 17/100  train_loss=0.0596  val bce=0.0625 mse=0.00298 corr=0.803 | peaks P=0.808 R=0.641 F=0.715 | resid by loudness quartile (quiet->loud) +0.0012 +0.0007 +0.0008 +0.0010  [-> distill02_e17.weights.h5]
+
+epoch 18/100  train_loss=0.0596  val bce=0.0626 mse=0.00300 corr=0.803 | peaks P=0.788 R=0.673 F=0.726 | resid by loudness quartile (quiet->loud) +0.0025 +0.0025 +0.0026 +0.0030  [-> distill02_e18.weights.h5]
+
+epoch 19/100  train_loss=0.0596  val bce=0.0628 mse=0.00307 corr=0.801 | peaks P=0.844 R=0.578 F=0.686 | resid by loudness quartile (quiet->loud) -0.0015 -0.0034 -0.0036 -0.0036  [-> distill02_e19.weights.h5]
+
+epoch 20/100  train_loss=0.0595  val bce=0.0626 mse=0.00299 corr=0.803 | peaks P=0.804 R=0.649 F=0.718 | resid by loudness quartile (quiet->loud) +0.0016 +0.0012 +0.0012 +0.0015  [-> distill02_e20.weights.h5]
+
+epoch 21/100  train_loss=0.0595  val bce=0.0626 mse=0.00304 corr=0.802 | peaks P=0.834 R=0.594 F=0.694 | resid by loudness quartile (quiet->loud) -0.0010 -0.0028 -0.0029 -0.0029  [-> distill02_e21.weights.h5]
+
+epoch 22/100  train_loss=0.0595  val bce=0.0624 mse=0.00299 corr=0.802 | peaks P=0.825 R=0.616 F=0.705 | resid by loudness quartile (quiet->loud) -0.0003 -0.0016 -0.0017 -0.0016  [-> distill02_e22.weights.h5]  [saved best, bce -0.0008 vs pretrained]
+
+epoch 23/100  train_loss=0.0595  val bce=0.0625 mse=0.00300 corr=0.800 | peaks P=0.818 R=0.623 F=0.707 | resid by loudness quartile (quiet->loud) +0.0005 -0.0007 -0.0007 -0.0006  [-> distill02_e23.weights.h5]
+
+epoch 24/100  train_loss=0.0595  val bce=0.0630 mse=0.00313 corr=0.802 | peaks P=0.856 R=0.554 F=0.672 | resid by loudness quartile (quiet->loud) -0.0024 -0.0045 -0.0047 -0.0048  [-> distill02_e24.weights.h5]
+
+epoch 25/100  train_loss=0.0595  val bce=0.0624 mse=0.00300 corr=0.801 | peaks P=0.823 R=0.616 F=0.705 | resid by loudness quartile (quiet->loud) -0.0002 -0.0016 -0.0017 -0.0016  [-> distill02_e25.weights.h5]
+
+epoch 26/100  train_loss=0.0595  val bce=0.0630 mse=0.00314 corr=0.802 | peaks P=0.860 R=0.547 F=0.669 | resid by loudness quartile (quiet->loud) -0.0023 -0.0045 -0.0048 -0.0049  [-> distill02_e26.weights.h5]
+
+epoch 27/100  train_loss=0.0595  val bce=0.0625 mse=0.00301 corr=0.801 | peaks P=0.824 R=0.612 F=0.702 | resid by loudness quartile (quiet->loud) +0.0005 -0.0006 -0.0006 -0.0005  [-> distill02_e27.weights.h5]
+
+epoch 28/100  train_loss=0.0594  val bce=0.0625 mse=0.00297 corr=0.803 | peaks P=0.798 R=0.660 F=0.722 | resid by loudness quartile (quiet->loud) +0.0021 +0.0019 +0.0020 +0.0024  [-> distill02_e28.weights.h5]
+
+epoch 29/100  train_loss=0.0595  val bce=0.0634 mse=0.00318 corr=0.799 | peaks P=0.860 R=0.542 F=0.665 | resid by loudness quartile (quiet->loud) -0.0030 -0.0055 -0.0058 -0.0061  [-> distill02_e29.weights.h5]
+
+epoch 30/100  train_loss=0.0594  val bce=0.0623 mse=0.00297 corr=0.805 | peaks P=0.827 R=0.615 F=0.705 | resid by loudness quartile (quiet->loud) +0.0001 -0.0011 -0.0011 -0.0011  [-> distill02_e30.weights.h5]  [saved best, bce -0.0009 vs pretrained]
+
+epoch 31/100  train_loss=0.0594  val bce=0.0633 mse=0.00321 corr=0.802 | peaks P=0.869 R=0.525 F=0.654 | resid by loudness quartile (quiet->loud) -0.0028 -0.0053 -0.0056 -0.0058  [-> distill02_e31.weights.h5]
+
+epoch 32/100  train_loss=0.0594  val bce=0.0627 mse=0.00303 corr=0.803 | peaks P=0.768 R=0.703 F=0.734 | resid by loudness quartile (quiet->loud) +0.0036 +0.0039 +0.0041 +0.0047  [-> distill02_e32.weights.h5]
+
+epoch 33/100  train_loss=0.0594  val bce=0.0623 mse=0.00296 corr=0.804 | peaks P=0.808 R=0.646 F=0.718 | resid by loudness quartile (quiet->loud) +0.0014 +0.0008 +0.0008 +0.0011  [-> distill02_e33.weights.h5]
+
+epoch 34/100  train_loss=0.0594  val bce=0.0624 mse=0.00296 corr=0.805 | peaks P=0.810 R=0.642 F=0.716 | resid by loudness quartile (quiet->loud) +0.0011 +0.0003 +0.0003 +0.0006  [-> distill02_e34.weights.h5]
+
+epoch 35/100  train_loss=0.0594  val bce=0.0623 mse=0.00296 corr=0.803 | peaks P=0.794 R=0.666 F=0.725 | resid by loudness quartile (quiet->loud) +0.0014 +0.0009 +0.0009 +0.0012  [-> distill02_e35.weights.h5]  [saved best, bce -0.0009 vs pretrained]
+
+epoch 36/100  train_loss=0.0594  val bce=0.0624 mse=0.00299 corr=0.805 | peaks P=0.833 R=0.605 F=0.701 | resid by loudness quartile (quiet->loud) -0.0001 -0.0014 -0.0014 -0.0013  [-> distill02_e36.weights.h5]
+
+epoch 37/100  train_loss=0.0594  val bce=0.0626 mse=0.00304 corr=0.803 | peaks P=0.844 R=0.580 F=0.688 | resid by loudness quartile (quiet->loud) -0.0015 -0.0034 -0.0036 -0.0037  [-> distill02_e37.weights.h5]
+
+epoch 38/100  train_loss=0.0594  val bce=0.0623 mse=0.00298 corr=0.805 | peaks P=0.832 R=0.606 F=0.701 | resid by loudness quartile (quiet->loud) -0.0003 -0.0016 -0.0016 -0.0016  [-> distill02_e38.weights.h5]
+
+epoch 39/100  train_loss=0.0594  val bce=0.0626 mse=0.00303 corr=0.804 | peaks P=0.843 R=0.586 F=0.691 | resid by loudness quartile (quiet->loud) -0.0016 -0.0035 -0.0037 -0.0037  [-> distill02_e39.weights.h5]
+
+epoch 40/100  train_loss=0.0594  val bce=0.0625 mse=0.00300 corr=0.800 | peaks P=0.813 R=0.631 F=0.711 | resid by loudness quartile (quiet->loud) -0.0005 -0.0017 -0.0018 -0.0018  [-> distill02_e40.weights.h5]
+
+epoch 41/100  train_loss=0.0593  val bce=0.0623 mse=0.00300 corr=0.804 | peaks P=0.840 R=0.593 F=0.695 | resid by loudness quartile (quiet->loud) -0.0006 -0.0022 -0.0023 -0.0023  [-> distill02_e41.weights.h5]
+
+epoch 42/100  train_loss=0.0593  val bce=0.0622 mse=0.00296 corr=0.806 | peaks P=0.832 R=0.609 F=0.703 | resid by loudness quartile (quiet->loud) -0.0002 -0.0015 -0.0015 -0.0015  [-> distill02_e42.weights.h5]  [saved best, bce -0.0010 vs pretrained]
+
+epoch 43/100  train_loss=0.0593  val bce=0.0633 mse=0.00321 corr=0.803 | peaks P=0.870 R=0.525 F=0.655 | resid by loudness quartile (quiet->loud) -0.0033 -0.0058 -0.0061 -0.0063  [-> distill02_e43.weights.h5]
+
+epoch 44/100  train_loss=0.0593  val bce=0.0623 mse=0.00297 corr=0.805 | peaks P=0.830 R=0.610 F=0.703 | resid by loudness quartile (quiet->loud) -0.0007 -0.0022 -0.0022 -0.0022  [-> distill02_e44.weights.h5]
+
+epoch 45/100  train_loss=0.0593  val bce=0.0622 mse=0.00294 corr=0.805 | peaks P=0.817 R=0.634 F=0.714 | resid by loudness quartile (quiet->loud) +0.0010 +0.0001 +0.0001 +0.0003  [-> distill02_e45.weights.h5]  [saved best, bce -0.0010 vs pretrained]
+
+epoch 46/100  train_loss=0.0593  val bce=0.0623 mse=0.00298 corr=0.805 | peaks P=0.832 R=0.606 F=0.701 | resid by loudness quartile (quiet->loud) -0.0010 -0.0025 -0.0027 -0.0026  [-> distill02_e46.weights.h5]
+
+epoch 47/100  train_loss=0.0593  val bce=0.0621 mse=0.00293 corr=0.806 | peaks P=0.817 R=0.635 F=0.715 | resid by loudness quartile (quiet->loud) +0.0003 -0.0006 -0.0006 -0.0005  [-> distill02_e47.weights.h5]  [saved best, bce -0.0011 vs pretrained]
+
+epoch 48/100  train_loss=0.0593  val bce=0.0622 mse=0.00295 corr=0.803 | peaks P=0.798 R=0.657 F=0.721 | resid by loudness quartile (quiet->loud) +0.0009 +0.0002 +0.0003 +0.0004  [-> distill02_e48.weights.h5]
+
+epoch 49/100  train_loss=0.0593  val bce=0.0623 mse=0.00297 corr=0.805 | peaks P=0.832 R=0.609 F=0.703 | resid by loudness quartile (quiet->loud) -0.0007 -0.0021 -0.0022 -0.0022  [-> distill02_e49.weights.h5]
+
+epoch 50/100  train_loss=0.0593  val bce=0.0622 mse=0.00293 corr=0.806 | peaks P=0.809 R=0.648 F=0.720 | resid by loudness quartile (quiet->loud) +0.0010 +0.0002 +0.0002 +0.0004  [-> distill02_e50.weights.h5]
+
+epoch 51/100  train_loss=0.0593  val bce=0.0624 mse=0.00299 corr=0.804 | peaks P=0.833 R=0.604 F=0.700 | resid by loudness quartile (quiet->loud) -0.0013 -0.0028 -0.0029 -0.0029  [-> distill02_e51.weights.h5]
+
+epoch 52/100  train_loss=0.0593  val bce=0.0622 mse=0.00295 corr=0.804 | peaks P=0.803 R=0.653 F=0.720 | resid by loudness quartile (quiet->loud) +0.0011 +0.0002 +0.0001 +0.0004  [-> distill02_e52.weights.h5]
+
+epoch 53/100  train_loss=0.0593  val bce=0.0628 mse=0.00310 corr=0.803 | peaks P=0.856 R=0.554 F=0.673 | resid by loudness quartile (quiet->loud) -0.0023 -0.0046 -0.0048 -0.0050  [-> distill02_e53.weights.h5]
+
+epoch 54/100  train_loss=0.0592  val bce=0.0623 mse=0.00297 corr=0.803 | peaks P=0.823 R=0.618 F=0.706 | resid by loudness quartile (quiet->loud) -0.0005 -0.0019 -0.0020 -0.0020  [-> distill02_e54.weights.h5]
+
+epoch 55/100  train_loss=0.0592  val bce=0.0622 mse=0.00292 corr=0.806 | peaks P=0.797 R=0.669 F=0.727 | resid by loudness quartile (quiet->loud) +0.0019 +0.0015 +0.0016 +0.0019  [-> distill02_e55.weights.h5]
+
+epoch 56/100  train_loss=0.0592  val bce=0.0621 mse=0.00292 corr=0.807 | peaks P=0.821 R=0.633 F=0.714 | resid by loudness quartile (quiet->loud) +0.0005 -0.0005 -0.0005 -0.0004  [-> distill02_e56.weights.h5]  [saved best, bce -0.0011 vs pretrained]
+
+epoch 57/100  train_loss=0.0592  val bce=0.0622 mse=0.00296 corr=0.807 | peaks P=0.834 R=0.606 F=0.702 | resid by loudness quartile (quiet->loud) -0.0004 -0.0017 -0.0018 -0.0018  [-> distill02_e57.weights.h5]
+
+epoch 58/100  train_loss=0.0592  val bce=0.0627 mse=0.00304 corr=0.801 | peaks P=0.836 R=0.591 F=0.693 | resid by loudness quartile (quiet->loud) -0.0017 -0.0036 -0.0038 -0.0039  [-> distill02_e58.weights.h5]
+
+epoch 59/100  train_loss=0.0592  val bce=0.0631 mse=0.00314 corr=0.801 | peaks P=0.745 R=0.729 F=0.737 | resid by loudness quartile (quiet->loud) +0.0048 +0.0056 +0.0059 +0.0065  [-> distill02_e59.weights.h5]
+
+epoch 60/100  train_loss=0.0592  val bce=0.0622 mse=0.00298 corr=0.805 | peaks P=0.835 R=0.600 F=0.698 | resid by loudness quartile (quiet->loud) -0.0008 -0.0023 -0.0024 -0.0024  [-> distill02_e60.weights.h5]
+
+epoch 61/100  train_loss=0.0592  val bce=0.0622 mse=0.00293 corr=0.806 | peaks P=0.812 R=0.644 F=0.718 | resid by loudness quartile (quiet->loud) +0.0011 +0.0004 +0.0004 +0.0006  [-> distill02_e61.weights.h5]
+
+epoch 62/100  train_loss=0.0592  val bce=0.0623 mse=0.00294 corr=0.807 | peaks P=0.783 R=0.688 F=0.732 | resid by loudness quartile (quiet->loud) +0.0025 +0.0027 +0.0029 +0.0032  [-> distill02_e62.weights.h5]
+
+epoch 63/100  train_loss=0.0592  val bce=0.0627 mse=0.00307 corr=0.803 | peaks P=0.850 R=0.568 F=0.681 | resid by loudness quartile (quiet->loud) -0.0023 -0.0045 -0.0047 -0.0049  [-> distill02_e63.weights.h5]
+
+epoch 64/100  train_loss=0.0592  val bce=0.0622 mse=0.00292 corr=0.807 | peaks P=0.791 R=0.678 F=0.730 | resid by loudness quartile (quiet->loud) +0.0020 +0.0018 +0.0018 +0.0022  [-> distill02_e64.weights.h5]
+
+epoch 65/100  train_loss=0.0592  val bce=0.0621 mse=0.00292 corr=0.806 | peaks P=0.798 R=0.666 F=0.726 | resid by loudness quartile (quiet->loud) +0.0014 +0.0009 +0.0009 +0.0011  [-> distill02_e65.weights.h5]  [saved best, bce -0.0012 vs pretrained]
+
+epoch 66/100  train_loss=0.0592  val bce=0.0623 mse=0.00295 corr=0.803 | peaks P=0.797 R=0.663 F=0.724 | resid by loudness quartile (quiet->loud) +0.0023 +0.0018 +0.0020 +0.0022  [-> distill02_e66.weights.h5]
+
+epoch 67/100  train_loss=0.0592  val bce=0.0629 mse=0.00310 corr=0.804 | peaks P=0.855 R=0.556 F=0.674 | resid by loudness quartile (quiet->loud) -0.0027 -0.0049 -0.0051 -0.0053  [-> distill02_e67.weights.h5]
+
+epoch 68/100  train_loss=0.0592  val bce=0.0621 mse=0.00292 corr=0.807 | peaks P=0.820 R=0.634 F=0.715 | resid by loudness quartile (quiet->loud) -0.0000 -0.0010 -0.0010 -0.0009  [-> distill02_e68.weights.h5]
+
+epoch 69/100  train_loss=0.0591  val bce=0.0620 mse=0.00292 corr=0.807 | peaks P=0.802 R=0.659 F=0.724 | resid by loudness quartile (quiet->loud) +0.0012 +0.0006 +0.0006 +0.0009  [-> distill02_e69.weights.h5]  [saved best, bce -0.0012 vs pretrained]
+
+epoch 70/100  train_loss=0.0591  val bce=0.0621 mse=0.00291 corr=0.807 | peaks P=0.808 R=0.654 F=0.723 | resid by loudness quartile (quiet->loud) +0.0012 +0.0006 +0.0006 +0.0008  [-> distill02_e70.weights.h5]
+
+epoch 71/100  train_loss=0.0592  val bce=0.0630 mse=0.00309 corr=0.803 | peaks P=0.852 R=0.567 F=0.681 | resid by loudness quartile (quiet->loud) -0.0028 -0.0051 -0.0053 -0.0055  [-> distill02_e71.weights.h5]
+
+epoch 72/100  train_loss=0.0591  val bce=0.0625 mse=0.00302 corr=0.806 | peaks P=0.850 R=0.578 F=0.688 | resid by loudness quartile (quiet->loud) -0.0019 -0.0039 -0.0041 -0.0042  [-> distill02_e72.weights.h5]
+
+epoch 73/100  train_loss=0.0591  val bce=0.0622 mse=0.00294 corr=0.804 | peaks P=0.792 R=0.672 F=0.727 | resid by loudness quartile (quiet->loud) +0.0023 +0.0019 +0.0020 +0.0023  [-> distill02_e73.weights.h5]
+
+epoch 74/100  train_loss=0.0591  val bce=0.0621 mse=0.00294 corr=0.807 | peaks P=0.831 R=0.611 F=0.704 | resid by loudness quartile (quiet->loud) -0.0008 -0.0022 -0.0022 -0.0023  [-> distill02_e74.weights.h5]
+
+epoch 75/100  train_loss=0.0591  val bce=0.0621 mse=0.00296 corr=0.807 | peaks P=0.835 R=0.604 F=0.701 | resid by loudness quartile (quiet->loud) -0.0007 -0.0021 -0.0022 -0.0022  [-> distill02_e75.weights.h5]
+
+epoch 76/100  train_loss=0.0591  val bce=0.0623 mse=0.00298 corr=0.804 | peaks P=0.835 R=0.601 F=0.699 | resid by loudness quartile (quiet->loud) -0.0011 -0.0028 -0.0029 -0.0029  [-> distill02_e76.weights.h5]
+
+epoch 77/100  train_loss=0.0591  val bce=0.0621 mse=0.00294 corr=0.803 | peaks P=0.811 R=0.640 F=0.715 | resid by loudness quartile (quiet->loud) +0.0003 -0.0009 -0.0009 -0.0008  [-> distill02_e77.weights.h5]
+
+epoch 78/100  train_loss=0.0591  val bce=0.0625 mse=0.00297 corr=0.806 | peaks P=0.771 R=0.706 F=0.737 | resid by loudness quartile (quiet->loud) +0.0037 +0.0041 +0.0042 +0.0048  [-> distill02_e78.weights.h5]
+
+epoch 79/100  train_loss=0.0591  val bce=0.0621 mse=0.00293 corr=0.805 | peaks P=0.816 R=0.636 F=0.715 | resid by loudness quartile (quiet->loud) -0.0003 -0.0014 -0.0015 -0.0014  [-> distill02_e79.weights.h5]
+
+epoch 80/100  train_loss=0.0591  val bce=0.0621 mse=0.00292 corr=0.808 | peaks P=0.786 R=0.689 F=0.734 | resid by loudness quartile (quiet->loud) +0.0024 +0.0023 +0.0024 +0.0028  [-> distill02_e80.weights.h5]
+
+epoch 81/100  train_loss=0.0591  val bce=0.0620 mse=0.00291 corr=0.807 | peaks P=0.821 R=0.631 F=0.714 | resid by loudness quartile (quiet->loud) +0.0003 -0.0008 -0.0008 -0.0007  [-> distill02_e81.weights.h5]  [saved best, bce -0.0012 vs pretrained]
+
+epoch 82/100  train_loss=0.0591  val bce=0.0620 mse=0.00291 corr=0.806 | peaks P=0.798 R=0.665 F=0.725 | resid by loudness quartile (quiet->loud) +0.0012 +0.0006 +0.0007 +0.0009  [-> distill02_e82.weights.h5]
+
+epoch 83/100  train_loss=0.0591  val bce=0.0623 mse=0.00300 corr=0.807 | peaks P=0.848 R=0.581 F=0.689 | resid by loudness quartile (quiet->loud) -0.0017 -0.0035 -0.0036 -0.0037  [-> distill02_e83.weights.h5]
+
+epoch 84/100  train_loss=0.0591  val bce=0.0621 mse=0.00294 corr=0.807 | peaks P=0.832 R=0.612 F=0.705 | resid by loudness quartile (quiet->loud) -0.0010 -0.0026 -0.0027 -0.0028  [-> distill02_e84.weights.h5]
+
+epoch 85/100  train_loss=0.0591  val bce=0.0625 mse=0.00304 corr=0.806 | peaks P=0.854 R=0.567 F=0.682 | resid by loudness quartile (quiet->loud) -0.0021 -0.0041 -0.0044 -0.0045  [-> distill02_e85.weights.h5]
+
+epoch 86/100  train_loss=0.0591  val bce=0.0628 mse=0.00309 corr=0.805 | peaks P=0.859 R=0.555 F=0.674 | resid by loudness quartile (quiet->loud) -0.0028 -0.0051 -0.0053 -0.0056  [-> distill02_e86.weights.h5]
+
+epoch 87/100  train_loss=0.0591  val bce=0.0629 mse=0.00316 corr=0.805 | peaks P=0.871 R=0.527 F=0.657 | resid by loudness quartile (quiet->loud) -0.0029 -0.0054 -0.0057 -0.0060  [-> distill02_e87.weights.h5]
+
+epoch 88/100  train_loss=0.0591  val bce=0.0628 mse=0.00306 corr=0.805 | peaks P=0.751 R=0.730 F=0.740 | resid by loudness quartile (quiet->loud) +0.0048 +0.0056 +0.0058 +0.0064  [-> distill02_e88.weights.h5]
+
+epoch 89/100  train_loss=0.0591  val bce=0.0621 mse=0.00292 corr=0.807 | peaks P=0.786 R=0.685 F=0.732 | resid by loudness quartile (quiet->loud) +0.0023 +0.0021 +0.0022 +0.0026  [-> distill02_e89.weights.h5]
+
+epoch 90/100  train_loss=0.0591  val bce=0.0619 mse=0.00289 corr=0.808 | peaks P=0.808 R=0.654 F=0.723 | resid by loudness quartile (quiet->loud) +0.0008 +0.0001 +0.0001 +0.0003  [-> distill02_e90.weights.h5]  [saved best, bce -0.0013 vs pretrained]
+
+epoch 91/100  train_loss=0.0591  val bce=0.0632 mse=0.00313 corr=0.804 | peaks P=0.864 R=0.546 F=0.669 | resid by loudness quartile (quiet->loud) -0.0033 -0.0058 -0.0060 -0.0063  [-> distill02_e91.weights.h5]
+
+epoch 92/100  train_loss=0.0591  val bce=0.0621 mse=0.00290 corr=0.807 | peaks P=0.798 R=0.668 F=0.728 | resid by loudness quartile (quiet->loud) +0.0023 +0.0020 +0.0021 +0.0024  [-> distill02_e92.weights.h5]
+
+epoch 93/100  train_loss=0.0591  val bce=0.0624 mse=0.00297 corr=0.806 | peaks P=0.771 R=0.704 F=0.736 | resid by loudness quartile (quiet->loud) +0.0033 +0.0036 +0.0038 +0.0042  [-> distill02_e93.weights.h5]
+
+epoch 94/100  train_loss=0.0590  val bce=0.0622 mse=0.00295 corr=0.808 | peaks P=0.836 R=0.607 F=0.703 | resid by loudness quartile (quiet->loud) -0.0011 -0.0027 -0.0028 -0.0028  [-> distill02_e94.weights.h5]
+
+epoch 95/100  train_loss=0.0591  val bce=0.0622 mse=0.00298 corr=0.806 | peaks P=0.838 R=0.594 F=0.695 | resid by loudness quartile (quiet->loud) -0.0009 -0.0025 -0.0026 -0.0026  [-> distill02_e95.weights.h5]
+
+epoch 96/100  train_loss=0.0590  val bce=0.0621 mse=0.00290 corr=0.809 | peaks P=0.810 R=0.650 F=0.721 | resid by loudness quartile (quiet->loud) +0.0014 +0.0008 +0.0008 +0.0010  [-> distill02_e96.weights.h5]
+
+epoch 97/100  train_loss=0.0591  val bce=0.0625 mse=0.00303 corr=0.802 | peaks P=0.839 R=0.585 F=0.689 | resid by loudness quartile (quiet->loud) -0.0013 -0.0034 -0.0035 -0.0037  [-> distill02_e97.weights.h5]
+
+epoch 98/100  train_loss=0.0590  val bce=0.0619 mse=0.00291 corr=0.807 | peaks P=0.815 R=0.642 F=0.718 | resid by loudness quartile (quiet->loud) +0.0006 -0.0005 -0.0006 -0.0004  [-> distill02_e98.weights.h5]
+
+epoch 99/100  train_loss=0.0590  val bce=0.0619 mse=0.00290 corr=0.807 | peaks P=0.810 R=0.649 F=0.721 | resid by loudness quartile (quiet->loud) +0.0005 -0.0004 -0.0004 -0.0002  [-> distill02_e99.weights.h5]
+
+epoch 100/100  train_loss=0.0590  val bce=0.0626 mse=0.00304 corr=0.805 | peaks P=0.852 R=0.568 F=0.682 | resid by loudness quartile (quiet->loud) -0.0022 -0.0044 -0.0046 -0.0048  [-> distill02_e100.weights.h5]
+Best (lowest val bce 0.0619, pretrained 0.0632) weights saved to finetune/runs/distill02.weights.h5
